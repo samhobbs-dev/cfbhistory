@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageLoader", "ImageLoader\ImageLoader.pyproj", "{A9DDE881-A5CA-42A7-8188-49EA0692D7AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9DDE881-A5CA-42A7-8188-49EA0692D7AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9DDE881-A5CA-42A7-8188-49EA0692D7AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EB45CBE-A536-411B-B90B-11D17A4C7FF8}
+	EndGlobalSection
+EndGlobal
