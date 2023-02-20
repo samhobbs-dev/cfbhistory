@@ -18,9 +18,11 @@ public class LogoController {
     LogoService logoService;
 
     @GetMapping("/logo/{teamId}")
-    public ResponseEntity<byte[]> getLogo(@PathVariable int teamId, @RequestParam int year) {
+    public ResponseEntity<byte[]> getLogo(@PathVariable int teamId, @RequestParam int year)
+            throws Exception {
         byte[] logo = logoService.getLogo(teamId, year);
-        // TODO consider allowing content type to be detectable
+        // TODO consider allowing content type to be detectable (e.g. for JPGS)
+        // null means no logo was found - frontend handles this
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(logo);
     }
 
@@ -33,6 +35,7 @@ public class LogoController {
     @PutMapping("/logo/image")
     public ResponseEntity updateLogoImage() {
         // TODO replace
+        return null;
     }
 
     @PutMapping("/logo/year/{teamId}")
