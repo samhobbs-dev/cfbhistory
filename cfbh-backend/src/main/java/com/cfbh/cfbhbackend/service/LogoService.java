@@ -1,6 +1,7 @@
 package com.cfbh.cfbhbackend.service;
 
 import java.sql.Blob;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class LogoService {
         Team team = teamService.getTeam(teamId);
         if (team == null) // If team was not found
             throw new Exception("Team with ID " + teamId + " not found!");
-        for (Logo logo : team.getLogos())
+        List<Logo> logos = logoRepository.findAllByTeamId(teamId);
+        for (Logo logo : logos) {
             // If logo passes first boundary
             if (logo.getFirstYear() <= year)
                 // If logo is present logo or passes later boundary
@@ -28,6 +30,7 @@ public class LogoService {
                     Blob image = logo.getImage();
                     return image.getBytes(1, (int) image.length());
                 }
+        }
         return null; // No logo for provided year
     }
 

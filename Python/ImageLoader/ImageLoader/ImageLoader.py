@@ -66,10 +66,10 @@ try:
         if team_id != -1:
             print('Saving '+school_name+' '+years+'...')
             if last_year != 'Pres':
-                sql = 'INSERT INTO logos(team_id,logo,year_first,year_last) VALUES(%s,%s,%s,%s)'
+                sql = 'INSERT INTO logos(team_id,image,year_first,year_last) VALUES(%s,%s,%s,%s)'
                 args = (team_id,blob_value,start_year,int(last_year)-1)
             else:
-                sql = 'INSERT INTO logos(team_id,logo,year_first) VALUES(%s,%s,%s)'
+                sql = 'INSERT INTO logos(team_id,image,year_first) VALUES(%s,%s,%s)'
                 args = (team_id,blob_value,start_year)
             cur.execute(sql,args)
             
