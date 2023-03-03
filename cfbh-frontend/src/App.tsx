@@ -1,8 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CfdbService from './api/cfbdService';
 
 function App() {
+  console.log(CfdbService.getAllTeamRecordsByYear(2022));
   return (
     <div className="App">
       <header className="App-header">

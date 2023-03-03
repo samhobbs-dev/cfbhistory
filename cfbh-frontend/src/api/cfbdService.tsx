@@ -1,12 +1,11 @@
 // Query teams, records, conferences, etc. from CFDB (https://collegefootballdata.com)
+import axios from "axios";
 
-// TODO place token elsewhere
-export const TOKEN = 'Bearer WXIGJhaBXf3xQfx/Ctrh4seXMLjAojnbQKhpouBKgzZYVVXydpI6jourT5YJ45sA';
-
+export const HOST = 'http://localhost:8081'
 const CfdbService = {
     // API calls
     getAllTeamRecordsByYear(year: number) {
-
+        return axios.get(HOST + '/record/' + year);
     },
     getConferenceTeamIds(year: number, conference: string) {
 
