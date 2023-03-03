@@ -1,11 +1,8 @@
 package com.cfbh.cfbhbackend.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "records")
-public class Record {
+public class TeamRecord {
     @Id
     @Column
     private int id;
@@ -39,7 +36,6 @@ public class Record {
     @Column(name = "tie_conf")
     private Integer totalConfTies;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "team_id", nullable = false)
-    private Team team;
+    @Column(name = "team_id", nullable = false)
+    private int teamId;
 }
