@@ -5,7 +5,6 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -23,8 +22,13 @@ public class Team {
     @Id
     @Column
     private int id;
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private Set<Logo> logos;
     @Column(name = "name_full")
     private String fullName;
+    @Column(name = "name_school")
+    private String school;
+    @Column
+    private String mascot;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private Set<Logo> logos;
 }
