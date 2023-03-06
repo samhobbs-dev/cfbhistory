@@ -3,5 +3,5 @@ export type RecordTeam = {
     fullName: string;
     school: string;
     mascot: string;
-    logo: Blob;
+    logo: string;
 };
