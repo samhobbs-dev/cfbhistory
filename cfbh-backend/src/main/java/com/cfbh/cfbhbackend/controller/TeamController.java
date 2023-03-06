@@ -1,0 +1,25 @@
+package com.cfbh.cfbhbackend.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cfbh.cfbhbackend.entity.Team;
+import com.cfbh.cfbhbackend.service.TeamService;
+
+@RestController
+@CrossOrigin("http://localhost:3000")
+@RequestMapping("/team")
+public class TeamController {
+    @Autowired
+    TeamService teamService;
+
+    @GetMapping("/{teamId}")
+    public ResponseEntity<Team> getTeam(@PathVariable int teamId) throws Exception {
+        return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    }
+}

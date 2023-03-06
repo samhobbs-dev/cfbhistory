@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cfbh.cfbhbackend.entity.Logo;
-import com.cfbh.cfbhbackend.entity.Team;
 import com.cfbh.cfbhbackend.repository.LogoRepository;
 
 @Service
@@ -18,8 +17,7 @@ public class LogoService {
     private TeamService teamService;
 
     public byte[] getLogo(int teamId, int year) throws Exception {
-        Team team = teamService.getTeam(teamId);
-        if (team == null) // If team was not found
+        if (!teamService.teamExists(teamId)) // If team was not found
             throw new Exception("Team with ID " + teamId + " not found!");
         List<Logo> logos = logoRepository.findAllByTeamId(teamId);
         for (Logo logo : logos) {
