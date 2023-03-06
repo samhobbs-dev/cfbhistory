@@ -2,7 +2,9 @@ import shutil
 from bs4 import BeautifulSoup
 from os.path import exists
 import requests, json, pymysql, os
+import boto3
 
+s3 = boto3.resource('s3')
 mysql = {'host':'localhost', 'user':'root', 'password':'root', 'db':'cfbdb'}
 con = pymysql.connect(host=mysql['host'],user=mysql['user'],password=mysql['password'],database=mysql['db'])
 headers = {
@@ -38,7 +40,6 @@ def scrape_team(link):
             main_logo = soup.find('div', attrs={'id' : 'mainLogo'})
             file = main_logo.find('img')
             save_logo(file)
-
 
 def save_logo(file):
     file_url = file.get('src')
@@ -92,7 +93,7 @@ def fetch_team_id(school_dic,school_name):
 
 def load_images():
     con = pymysql.connect(host=mysql['host'],user=mysql['user'],password=mysql['password'],database=mysql['db'])
-    # Load images from drive to SQL DB
+    # Load image filenames to DB - manually upload downloaded images to hosting service
     missing_file = open("missing.txt","w")
     missing_file.write("Missing schools: \n")
     missing_school_current = ''
@@ -110,7 +111,7 @@ def load_images():
         # Iterate over all images, store based on format & matching
         for file in os.listdir(file_path):
             filename = os.fsdecode(file)
-            blob_value = open(file_path + filename,'rb').read()
+            # blob_value = open(file_path + filename,'rb').read()
             school_name = filename.split(' Logo')[0]
             years = filename.rsplit('(',1)[1].split(')')[0]
             print(filename)
@@ -128,14 +129,14 @@ def load_images():
             if team_id != -1:
                 if last_year == 'Pres':
                     sql = 'INSERT INTO logos(team_id,image,year_first) VALUES(%s,%s,%s)'
-                    args = (team_id,blob_value,start_year)
+                    args = (team_id,filename,start_year)
                 # Deal w/issue where SL logo years are listed as single, fixing inconsistency
                 elif start_year == last_year:
                     sql = 'INSERT INTO logos(team_id,image,year_first,year_last) VALUES(%s,%s,%s,%s)'
-                    args = (team_id,blob_value,start_year,last_year)
+                    args = (team_id,filename,start_year,last_year)
                 else:
                     sql = 'INSERT INTO logos(team_id,image,year_first,year_last) VALUES(%s,%s,%s,%s)'
-                    args = (team_id,blob_value,start_year,int(last_year)-1)
+                    args = (team_id,filename,start_year,int(last_year)-1)
             else:
                 if missing_school_current != school_name:
                     # Write which schools didn't make it for fixing
@@ -145,14 +146,14 @@ def load_images():
                 # Add logo to DB even if team id wasn't found (TODO is this a good idea??)
                 if last_year == 'Pres':
                     sql = 'INSERT INTO logos(image,year_first) VALUES(%s,%s)'
-                    args = (blob_value,start_year)
+                    args = (filename,start_year)
                 # Deal w/issue where SL logo years are listed as single, fixing inconsistency
                 elif start_year == last_year:
                     sql = 'INSERT INTO logos(image,year_first,year_last) VALUES(%s,%s,%s)'
-                    args = (blob_value,start_year,last_year)
+                    args = (filename,start_year,last_year)
                 else:
                     sql = 'INSERT INTO logos(image,year_first,year_last) VALUES(%s,%s,%s)'
-                    args = (blob_value,start_year,int(last_year)-1)
+                    args = (filename,start_year,int(last_year)-1)
             cur.execute(sql,args)
 
         con.commit()
@@ -240,7 +241,6 @@ def fetch_games():
             r = requests.get(endpoint, headers=headers, params=params)
             games = r.json()
             for g in games:
-                # id = g['id']
                 year = g['season']
                 week = g['week']
                 postseason = 1 if season_type == "postseason" else 0
@@ -251,8 +251,6 @@ def fetch_games():
                 completed = 1 if g['completed'] == True else 0
                 # Sometimes conference game is null in CFDB, will be false in ours
                 conference_game = 1 if g['conference_game'] == True else 0
-                # sql = "INSERT INTO games (id,year,week,postseason,id_home_team,id_away_team,points_home,points_away) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                # args = (str(id),str(year),str(week),str(postseason),str(id_home_team),str(id_away_team),str(points_home),str(points_away))
                 if completed == True:
                     # Account for CFDB bug where some games are marked as completed yet have no points (null)
                     if points_home == None and points_away == None:
