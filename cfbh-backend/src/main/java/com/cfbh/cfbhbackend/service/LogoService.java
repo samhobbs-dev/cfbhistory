@@ -1,6 +1,5 @@
 package com.cfbh.cfbhbackend.service;
 
-import java.sql.Blob;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +15,19 @@ public class LogoService {
     @Autowired
     private TeamService teamService;
 
-    public byte[] getLogo(int teamId, int year) throws Exception {
+    public List<Logo> getAllTeamLogos(int teamId) throws Exception {
         if (!teamService.teamExists(teamId)) // If team was not found
             throw new Exception("Team with ID " + teamId + " not found!");
-        List<Logo> logos = logoRepository.findAllByTeamId(teamId);
-        for (Logo logo : logos) {
+        return logoRepository.findAllByTeamId(teamId);
+    }
+
+    public String getLogoImage(int teamId, int year) throws Exception {
+        for (Logo logo : getAllTeamLogos(teamId)) {
             // If logo passes first boundary
             if (logo.getFirstYear() <= year)
                 // If logo is present logo or passes later boundary
                 if (logo.getLastYear() == null || logo.getLastYear() >= year) {
-                    Blob image = logo.getImage();
-                    return image.getBytes(1, (int) image.length());
+                    return logo.getImage();
                 }
         }
         return null; // No logo for provided year

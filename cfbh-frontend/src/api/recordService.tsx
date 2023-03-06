@@ -84,11 +84,7 @@ const RecordService = {
     },
     async getTeamAndLogoByYear(teamId: number, year: number) {
         try {
-            const response = await axios.get(HOST + '/logo/' + teamId, { params: { year } });               
-            let logoBlob = new Blob(
-                [response.data],                    
-                { type: response.headers['content-type'] }
-            ); 
+            const { data: logo } = await axios.get(HOST + '/logo/image/' + teamId, { params: { year } }); 
             
             const { data: r } = await axios.get<RecordTeamResponse>(HOST + '/team/' + teamId);
             var teamRecord: RecordTeam = {
@@ -96,7 +92,7 @@ const RecordService = {
                 fullName: r.fullName,
                 school: r.school,
                 mascot: r.mascot,
-                logo: logoBlob
+                logo: logo
             }
             return teamRecord;
         } catch (error) {            

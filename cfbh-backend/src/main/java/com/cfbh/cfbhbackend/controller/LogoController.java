@@ -1,7 +1,8 @@
 package com.cfbh.cfbhbackend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cfbh.cfbhbackend.entity.Logo;
 import com.cfbh.cfbhbackend.service.LogoService;
 
 @RestController
@@ -22,12 +24,18 @@ public class LogoController {
     private LogoService logoService;
 
     @GetMapping("/{teamId}")
-    public ResponseEntity<byte[]> getLogo(@PathVariable int teamId, @RequestParam int year)
+    public ResponseEntity<List<Logo>> getAllTeamLogos(@PathVariable int teamId)
             throws Exception {
-        byte[] logo = logoService.getLogo(teamId, year);
-        // TODO consider allowing content type to be detectable (e.g. for JPGS)
+        List<Logo> teamLogos = logoService.getAllTeamLogos(teamId);
+        return ResponseEntity.ok().body(teamLogos);
+    }
+
+    @GetMapping("/image/{teamId}")
+    public ResponseEntity<String> getLogoImage(@PathVariable int teamId, @RequestParam int year)
+            throws Exception {
+        String logoImage = logoService.getLogoImage(teamId, year);
         // null means no logo was found - frontend handles this
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(logo);
+        return ResponseEntity.ok().body(logoImage);
     }
 
     @PostMapping("/add")
