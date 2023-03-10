@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import GameService from '../api/gameService';
 import GameStatus from '../type/gameStatus';
 import TeamGame from '../type/teamGame';
-import MyImage from './TeamLogo';
+import TeamLogo from './TeamLogo';
 
 interface MyProps {
     teamId: number;
@@ -38,9 +38,9 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 			{games.map(game => (
 				<Grid item style={{backgroundColor: "white"}}>
 					<Paper style={{height: "150px", width: "150px"}}>
-						<Grid container spacing={0} alignItems="center" direction="column" >
+						<Grid container spacing={0} alignItems="center" direction="column">
 							<Grid item xs="auto">
-								<MyImage teamId={game.opponentTeamId} year={year} />
+								<TeamLogo teamId={game.opponentTeamId} year={year} isSchedule/>
 							</Grid>
 							<Grid item>
 								<b style={{color: getGameStatusColor(game.gameStatus)}}>

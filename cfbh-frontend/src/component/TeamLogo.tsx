@@ -7,6 +7,7 @@ export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/';
 interface MyProps {
     teamId: number;
     year: number;
+    isSchedule?: boolean;
 }
 
 const XY = 100;
@@ -16,7 +17,7 @@ const myStyle = {
 	maxHeight: XY
 }
 
-const MyImage: React.FC<MyProps> = ({ teamId, year }) => {
+const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
     const [school, setSchool] = useState<string>('');
@@ -35,11 +36,15 @@ const MyImage: React.FC<MyProps> = ({ teamId, year }) => {
         });
     },[teamId, year]);
     
-    return (
+    return noImage === false ? (
         <div>
-            {noImage === false ? <img src={image} style={myStyle} alt="myLogo" height="auto" width="auto"/> : <b>{school}</b>}      
+            <img src={image} style={myStyle} alt="logo" height="auto" width="auto"/>
+        </div>
+    ) : (
+        <div>
+            {isSchedule ? (<b>{school}</b>) : ''}                
         </div>
     );
 };
 
-export default MyImage;
+export default TeamLogo;
