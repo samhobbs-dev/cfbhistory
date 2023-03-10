@@ -2,9 +2,9 @@ import { RecordTeam } from "./recordTeam";
 
 export type SeasonRecord = {
     id: number;
-    team: RecordTeam | null;
+    team: RecordTeam;   // | null;
     year: number;
-    division: string;   // Optional
+    division: string;   // No division name means empty string
     conference: string;
     totalWins: number;
     totalLosses: number;

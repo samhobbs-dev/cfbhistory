@@ -1,9 +1,15 @@
 package com.cfbh.cfbhbackend.entity;
 
+import org.hibernate.annotations.Cascade;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +42,10 @@ public class TeamRecord {
     @Column(name = "tie_conf")
     private Integer totalConfTies;
 
-    @Column(name = "team_id", nullable = false)
-    private int teamId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
+
+    @Transient
+    private String logo = "";
 }

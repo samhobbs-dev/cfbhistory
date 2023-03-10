@@ -21,7 +21,8 @@ public class RecordController {
     RecordService recordService;
 
     @GetMapping("/{year}")
-    public ResponseEntity<List<TeamRecord>> getYearRecords(@PathVariable int year) {
+    public ResponseEntity<List<TeamRecord>> getYearRecords(@PathVariable int year)
+            throws Exception {
         return ResponseEntity.ok().body(recordService.getYearRecords(year));
     }
 }

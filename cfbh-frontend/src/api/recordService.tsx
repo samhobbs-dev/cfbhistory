@@ -1,4 +1,6 @@
+/* eslint-disable eqeqeq */
 import axios from "axios";
+import { ConfDivision, Conference } from "../type/conference";
 import { SeasonRecord } from "../type/record";
 import { RecordTeam } from "../type/recordTeam";
 
@@ -8,7 +10,12 @@ type GetRecordsResponse = {
 
 type RecordResponse = {
     id: number;
-    teamId: number;
+    team: {
+        id: number,
+        fullName: string,
+        school: string,
+        mascot: string
+    };
     year: number;
     division: string;   // Optional
     conference: string;
@@ -18,6 +25,7 @@ type RecordResponse = {
     totalConfWins: number;
     totalConfLosses: number;
     totalConfTies: number;
+    logo: string;
 }
 
 type RecordTeamResponse = {
@@ -26,10 +34,6 @@ type RecordTeamResponse = {
     school: string;
     mascot: string;
     // Ignoring logos[]
-}
-
-type LogoResponse = {
-
 }
 
 // TODO strict typing & async requests?
@@ -49,14 +53,33 @@ const RecordService = {
     },
     // Group calls
     async getAllConferenceStandings(year: number) {
+        const isTeamInExistingConference = (sr: SeasonRecord, confList: Conference[]) => {
+            for (var i = 0; i < confList.length; i++)
+                if (sr.conference === confList[i].name)
+                    return i;
+            return -1;
+        }
+
+        const isTeamInExistingDivision = (sr: SeasonRecord, divList: ConfDivision[]) => {
+            for (var i = 0; i < divList.length; i++)
+                if (sr.division === divList[i].name)
+                    return i;
+            return -1;
+        }
         // Get all team records, organize everything into conferences & divisons, & sort        
         try {
             const { data: resp } = await axios.get<RecordResponse[]>(HOST + '/record/' + year);
-            var allRecords: SeasonRecord[] = [];
+            let conferenceList: Conference[] = [];
             resp.forEach(r => {
-                var record: SeasonRecord = {
+                var sr: SeasonRecord = {
                     id: r.id,
-                    team: null,
+                    team: {
+                        id: r.team.id,
+                        fullName: r.team.fullName,
+                        school: r.team.school,
+                        mascot: r.team.mascot,
+                        logo: r.logo
+                    },
                     year: r.year,
                     division: r.division,
                     conference: r.conference,
@@ -67,11 +90,33 @@ const RecordService = {
                     totalConfLosses: r.totalConfLosses,
                     totalConfTies: r.totalConfTies
                 }
-
-                allRecords.push(record);
+                // For every team record, see if team's conference is in conf list
+                // If not, add new conference, w/team's division
+                var confIndex: number;
+                var divIndex: number;
+                if ((confIndex = isTeamInExistingConference(sr,conferenceList)) === -1) {
+                    let newConf: Conference = {
+                        name: sr.conference,
+                        divisions: new Array({
+                            name: sr.division,
+                            teams: new Array(sr)
+                        }),
+                        logo: null  // TODO add conference logo functionality
+                    }
+                    conferenceList.push(newConf);
+                } else if ((divIndex = isTeamInExistingDivision(sr,conferenceList[confIndex].divisions)) === -1) {
+                    // If team is of existing conference but non-existing division, add division
+                    let newDiv: ConfDivision = {
+                        name: sr.division,
+                        teams: new Array(sr)
+                    }
+                    conferenceList[confIndex].divisions.push(newDiv);
+                } else {    // Add team to existing conference/division
+                    conferenceList[confIndex].divisions[divIndex].teams.push(sr);
+                }
             });
-            
-            return allRecords;
+
+            return conferenceList;
         } catch (error) {            
             if (axios.isAxiosError(error)) {
                 console.log('error message: ', error.message);
