@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux/es/exports";
 import RecordService from "../api/recordService";
+import { logoAdded, selectLogos } from "../state/logoSlice";
 import { RecordTeam } from "../type/recordTeam";
 
 export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/';
@@ -17,10 +19,13 @@ const myStyle = {
 	maxHeight: XY
 }
 
+
 const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
     const [school, setSchool] = useState<string>('');
+    
+    const dispatch = useDispatch();
 
     useEffect(() => {
       RecordService.getTeamAndLogoByYear(teamId,year).then(response => {
@@ -33,8 +38,13 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
                 setNoImage(true);
                 setSchool(schoolName);
             }
+            // dispatch(logoAdded({
+            //     teamId,
+            //     logoImage
+            // }));
+            // console.log(selectLogos);
         });
-    },[teamId, year]);
+    },[dispatch, teamId, year]);
     
     return noImage === false ? (
         <div>
