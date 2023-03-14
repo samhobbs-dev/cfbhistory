@@ -18,7 +18,6 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 		GameService.getTeamGamesForYear(teamId,year).then(response => {
 			// TODO typecheck for error string
 			setGames(response as TeamGame[]);
-			// console.log(games);
 		});
 	}, [teamId, year]);
 
@@ -36,9 +35,9 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	return (
     <Grid container spacing={1}>
 			{games.map(game => (
-				<Grid item style={{backgroundColor: "white"}}>
-					<Paper style={{height: "150px", width: "150px"}}>
-						<Grid container spacing={0} alignItems="center" direction="column">
+				<Grid item style={{height: "150px", width: "150px"}}>
+					<Paper style={{backgroundColor: "white", height: "150px", width: "150px"}}>
+						<Grid container padding={1} alignItems="center" direction="column">
 							<Grid item xs="auto">
 								<TeamLogo teamId={game.opponentTeamId} year={year} isSchedule/>
 							</Grid>

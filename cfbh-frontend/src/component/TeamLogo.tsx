@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import RecordService from "../api/recordService";
 import { RecordTeam } from "../type/recordTeam";
@@ -14,13 +15,15 @@ const XY = 100;
 
 const myStyle = {
 	maxWidth: XY,
-	maxHeight: XY
+	maxHeight: XY,
+    zIndex: -1
 }
 
 const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
     const [school, setSchool] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
       RecordService.getTeamAndLogoByYear(teamId,year).then(response => {
@@ -31,19 +34,25 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
                 setImage(logoImage);
             } else {
                 setNoImage(true);
-                setSchool(schoolName);
             }
+            setSchool(schoolName);
+            setLoading(false);
         });
     },[teamId, year]);
     
-    return noImage === false ? (
+    return loading ? (
         <div>
-            <img src={image} style={myStyle} alt="logo" height="auto" width="auto"/>
-        </div>
-    ) : (
-        <div>
-            {isSchedule ? (<b>{school}</b>) : ''}                
-        </div>
+            <CircularProgress/>
+        </div>    
+    ) : (noImage === false ? (
+            <div>
+                <img src={image} style={myStyle} alt="logo" height="auto" width="auto" title={school}/>
+            </div>
+        ) : (
+            <div>
+                {isSchedule ? (<b>{school}</b>) : ''}
+            </div>
+        )
     );
 };
 
