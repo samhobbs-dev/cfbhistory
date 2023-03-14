@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
-import ConfGrid from './component/ConfGrid';
-import TeamSchedule from './component/TeamSchedule';
+import SchedulePage from './page/SchedulePage';
 
 function App() {
-  let year: number = 2002;
+  let year: number = 2007;
   return (
     <div className="App">
       <header className="App-header">
-        <ConfGrid year={year}/>
+        <SchedulePage year={year}/>
       </header> 
     </div>
   );
