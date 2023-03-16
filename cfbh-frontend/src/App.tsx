@@ -1,13 +1,28 @@
 import React from 'react';
 import './App.css';
 import SchedulePage from './page/SchedulePage';
+import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 
 function App() {
-  let year: number = 2007;
   return (
     <div className="App">
       <header className="App-header">
-        <SchedulePage year={year}/>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Navigate to="year/2022"/>
+              }
+            />
+            <Route
+              path="year/:year"
+              element={
+                <SchedulePage/>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
       </header> 
     </div>
   );
