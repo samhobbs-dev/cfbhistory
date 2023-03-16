@@ -13,12 +13,16 @@ const ConfGrid: React.FC<MyProps> = ({ year }) => {
     
     useEffect(() => {
         RecordService.getAllConferenceStandings(year).then(response => {
-            setConferences(response as Conference[]);
+            let confResponse = response as Conference[];
+            confResponse.sort((a,b) => {
+                return a.name.localeCompare(b.name);
+            });
+            setConferences(confResponse);
         });
     }, [year]);
 
     return (
-        <Grid container direction="row" spacing={3}>
+        <Grid container direction="row" spacing={3} justifyContent="center">
             {conferences.map(conf => (
                 <Grid item>
                     <ConfStandings conference={conf} />

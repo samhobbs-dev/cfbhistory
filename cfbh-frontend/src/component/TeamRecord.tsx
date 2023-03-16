@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { NO_TEAM, setScheduleTeamId } from "../store/scheduleSlice";
 import { SeasonRecord } from "../type/record";
 import TeamLogo from "./TeamLogo";
@@ -10,13 +10,12 @@ interface MyProps {
 
 const TeamRecord: React.FC<MyProps> = ({ record }) => {
     const dispatch = useAppDispatch();
-
     const team = record.team;
     
     return (
         <>
         <Paper 
-            style={{ height: "120px", width: "400px", zIndex: 0 }}
+            style={{ height: "120px", width: "300px", zIndex: 0 }}
             onMouseEnter={() => dispatch(setScheduleTeamId(team.id))}
             onMouseLeave={() => dispatch(setScheduleTeamId(NO_TEAM))}>
             <Grid container spacing={1} height="120px" alignContent="center" alignItems="center" direction="row">
