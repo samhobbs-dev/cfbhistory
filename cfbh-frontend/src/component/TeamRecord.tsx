@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch }  from "../store/hooks";
 import { NO_TEAM, setScheduleTeamId } from "../store/scheduleSlice";
 import { SeasonRecord } from "../type/record";
 import TeamLogo from "./TeamLogo";
