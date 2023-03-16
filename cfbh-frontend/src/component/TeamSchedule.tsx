@@ -33,7 +33,7 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	}
 
 	return (
-    <Grid container spacing={1}>
+    <Grid container wrap="nowrap" spacing={1}>
 			{games.map(game => (
 				<Grid item style={{height: "150px", width: "150px"}}>
 					<Paper style={{backgroundColor: "white", height: "150px", width: "150px"}}>

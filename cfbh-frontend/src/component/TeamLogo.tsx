@@ -19,6 +19,9 @@ const myStyle = {
     zIndex: -1
 }
 
+// Set this to true or false if we want to display copyrighted logos or not
+const FETCH_IMAGE = false;
+
 const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
@@ -29,7 +32,7 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
       RecordService.getTeamAndLogoByYear(teamId,year).then(response => {
             let logoImage = (response as RecordTeam).logo;
             let schoolName = (response as RecordTeam).school;
-            if (logoImage !== '') {
+            if (FETCH_IMAGE && logoImage !== '') {
                 logoImage = S3_LINK + logoImage;
                 setImage(logoImage);
             } else {

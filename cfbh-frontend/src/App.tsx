@@ -2,11 +2,14 @@ import React from 'react';
 import './App.css';
 import SchedulePage from './page/SchedulePage';
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
+import Header from './component/Header';
+import Footer from './component/Footer';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Header/>
         <BrowserRouter>
           <Routes>
             <Route
@@ -23,6 +26,7 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
+        <Footer/>
       </header> 
     </div>
   );

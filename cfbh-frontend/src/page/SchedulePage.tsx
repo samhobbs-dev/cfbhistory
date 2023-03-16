@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfGrid from "../component/ConfGrid";
 import ConfYear from "../component/ConfYear";
@@ -37,7 +38,7 @@ const SchedulePage: React.FC<MyProps> = () => {
             incrementYear={incrementYear}
             decrementYear={decrementYear}
             />
-        {isTeam && (
+       {isTeam && (
             <div style={{ position: "fixed", zIndex: 1, bottom: 0}}>
                 <TeamSchedule
                     teamId={teamId}
