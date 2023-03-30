@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      # Install dependencies into node_modules/ directory
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+# Include only the files required for frontend to run
+artifacts:
+  files:
+    - cfbh-frontend/public/**/*
+    - cfbh-frontend/src/**/*
+    - cfbh-frontend/package.json
+    - cfbh-frontend/appspec.yml
+    - cfbh-frontend/scripts/**/*
