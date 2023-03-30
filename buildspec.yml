@@ -6,6 +6,7 @@ phases:
   pre_build:
     commands:
       # Install dependencies into node_modules/ directory
+      - cd cfbh-frontend
       - npm install
   build:
     commands:
