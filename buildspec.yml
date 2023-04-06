@@ -23,4 +23,5 @@ artifacts:
     - cfbh-frontend/src/**/*
     - cfbh-frontend/package.json
     - cfbh-frontend/appspec.yml
+    - cfbh-frontend/tsconfig.json
     - cfbh-frontend/scripts/**/*
