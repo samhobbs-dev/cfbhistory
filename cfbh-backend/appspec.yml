@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /cfbh-backend-1.0.jar
+    destination: /home/ec2-user
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+
+hooks:
+  ApplicationStop:
+    - location: scripts/app_stop.sh
+      timeout: 200
+      runas: root
+  ApplicationStart:
+    - location: scripts/app_start.sh
+      timeout: 200
+      runas: root
