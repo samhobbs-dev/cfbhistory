@@ -20,7 +20,7 @@ const myStyle = {
 }
 
 // Set this to true or false if we want to display copyrighted logos or not
-const FETCH_IMAGE = false;
+const FETCH_IMAGE = true;
 
 const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
     const [image, setImage] = useState<string>('');
