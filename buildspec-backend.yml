@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - cd cfbh-backend
+      - mvn clean install
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - cfbh-backend/appspec.yml
+    - cfbh-backend/scripts/**/*
+    - cfbh-backend/cfbh-backend-1.0.jar
+  discard-paths: yes
+     
