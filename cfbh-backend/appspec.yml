@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /cfbh-backend-1.0.jar
+  - source: /
     destination: /home/ubuntu
 
 permissions:
@@ -13,10 +13,10 @@ permissions:
 
 hooks:
   ApplicationStop:
-    - location: scripts/app_stop.sh
+    - location: app_stop.sh
       timeout: 200
       runas: root
   ApplicationStart:
-    - location: scripts/app_start.sh
+    - location: app_start.sh
       timeout: 200
       runas: root
