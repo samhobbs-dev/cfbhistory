@@ -37,7 +37,7 @@ type RecordTeamResponse = {
 }
 
 // TODO strict typing & async requests?
-export const HOST = 'http://localhost:8081'
+export const HOST = 'http://ec2-18-189-66-35.us-east-2.compute.amazonaws.com:8081'
 const RecordService = {
     // API calls
     async getAllTeamRecordsByYear(year: number) {
