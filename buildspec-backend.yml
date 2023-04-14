@@ -11,6 +11,6 @@ artifacts:
   files:
     - cfbh-backend/appspec.yml
     - cfbh-backend/scripts/**/*
-    - cfbh-backend/cfbh-backend-1.0.jar
+    - cfbh-backend/target/cfbh-backend-1.0.jar
   discard-paths: yes
      
