@@ -11,4 +11,4 @@ server:
 
 app:
   cors:
-    allowedOrigins: http://localhost:3000,http://localhost:8081
+    allowedOrigins: http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000,http://localhost:8081
