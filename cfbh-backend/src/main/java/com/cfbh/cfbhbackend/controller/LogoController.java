@@ -17,7 +17,11 @@ import com.cfbh.cfbhbackend.entity.Logo;
 import com.cfbh.cfbhbackend.service.LogoService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000" })
+@CrossOrigin(origins = {
+        "http://localhost:3000",
+        "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000",
+        "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com"
+})
 @RequestMapping("/logo")
 public class LogoController {
     @Autowired
