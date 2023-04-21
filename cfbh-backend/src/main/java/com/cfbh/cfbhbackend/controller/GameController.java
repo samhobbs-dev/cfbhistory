@@ -15,7 +15,11 @@ import com.cfbh.cfbhbackend.entity.Game;
 import com.cfbh.cfbhbackend.service.GameService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000" })
+@CrossOrigin(origins = {
+        "http://localhost:3000",
+        "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000",
+        "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com"
+})
 @RequestMapping("/game")
 public class GameController {
     @Autowired

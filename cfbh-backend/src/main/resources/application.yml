@@ -8,7 +8,8 @@ spring:
       exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 server:
   port: 8081
-
-app:
-  cors:
-    allowedOrigins: http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000,http://localhost:8081
+logging:
+  path: ./logs
+# app:
+#   cors:
+#     allowedOrigins: http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000,http://localhost:8081
