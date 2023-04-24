@@ -13,6 +13,10 @@ permissions:
     group: ubuntu
 
 hooks:
+  BeforeInstall:
+    - location: copy_app_start.sh
+      timeout: 200
+      runas: root
   ApplicationStop:
     - location: app_stop.sh
       timeout: 200
