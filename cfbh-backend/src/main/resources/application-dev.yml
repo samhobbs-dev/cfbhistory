@@ -3,7 +3,3 @@ spring:
     url: jdbc:mysql://localhost:3306/cfbdb
     username: root
     password: $Complex505
-
-app:
-  cors:
-    allowedOrigins: http://localhost:3000,http://localhost:8081
