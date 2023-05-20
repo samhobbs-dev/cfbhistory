@@ -48,9 +48,6 @@ const RecordService = {
             return 'error';
         }
     },
-    getConferenceTeamIds(year: number, conference: string) {
-
-    },
     // Group calls
     async getAllConferenceStandings(year: number) {
         const isTeamInExistingConference = (sr: SeasonRecord, confList: Conference[]) => {
@@ -149,9 +146,6 @@ const RecordService = {
                 return 'An unexpected error occurred';
             }
         }
-    },
-    populateTeamLogos(/*ConferenceYear*/) {
-        // Call populateLogos for every team, each making a call to the logoService & backend
     }
 }
 

@@ -10,6 +10,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Header/>
+      </header>
+      <main className="App-body">
         <BrowserRouter>
           <Routes>
             <Route
@@ -26,8 +28,10 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
+      </main>
+      <footer className="App-footer">
         <Footer/>
-      </header> 
+      </footer>
     </div>
   );
 }

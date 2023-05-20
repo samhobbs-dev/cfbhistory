@@ -22,13 +22,15 @@ const ConfGrid: React.FC<MyProps> = ({ year }) => {
     }, [year]);
 
     return (
-        <Grid container direction="row" spacing={3} mb={5} justifyContent="center">
-            {conferences.map(conf => (
-                <Grid item>
-                    <ConfStandings conference={conf} />
-                </Grid>
-            ))}            
-        </Grid>
+        <div>
+            <Grid container direction="row" spacing={3} mb={5} justifyContent="center">
+                {conferences.map(conf => (
+                    <Grid item>
+                        <ConfStandings conference={conf} />
+                    </Grid>
+                ))}            
+            </Grid>
+        </div>
     );
 }
 

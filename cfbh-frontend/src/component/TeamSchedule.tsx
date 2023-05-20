@@ -11,6 +11,9 @@ interface MyProps {
     year: number;
 }
 
+const height = "150px";
+const width = height;
+
 const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	const [games, setGames] = useState<TeamGame[]>([]);
 
@@ -35,13 +38,16 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	return (
     <Grid container wrap="nowrap" spacing={1}>
 			{games.map(game => (
-				<Grid item style={{height: "150px", width: "150px"}}>
-					<Paper style={{backgroundColor: "white", height: "150px", width: "150px"}}>
-						<Grid container padding={1} alignItems="center" direction="column">
-							<Grid item xs="auto">
-								<TeamLogo teamId={game.opponentTeamId} year={year} isSchedule/>
+				<Grid item style={{height: height, width: width}}>
+					<Paper
+						square
+						elevation={1}					
+						style={{backgroundColor: "white", height: height, width: width}}>
+						<Grid container padding={2} alignItems="center" direction="column" alignContent="center" width="100%" height="100%">
+							<Grid item container xs={8} alignContent="center" alignItems="center" width="auto" height="50%">
+								<TeamLogo teamId={game.opponentTeamId} year={year} xy={90} isSchedule/>
 							</Grid>
-							<Grid item>
+							<Grid item xs={4} alignContent="center" alignItems="center">
 								<b style={{color: getGameStatusColor(game.gameStatus)}}>
 									{game.gameStatus}
 								</b>
