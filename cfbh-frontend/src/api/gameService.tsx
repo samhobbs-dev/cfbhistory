@@ -71,8 +71,6 @@ const GameService = {
             }
         }
     }
-    ,
-    populateAllTeamGamesForYear(year: number/*,teams[]*/) {}
 }
 
 export default GameService;

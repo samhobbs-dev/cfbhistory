@@ -20,18 +20,19 @@ const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, dec
         onChange(event.target.value);
     }
     return (
-        <Stack spacing={1} direction="row">
-            <IconButton onClick={decrementYear}>
-                <ArrowLeftIcon/>
-            </IconButton>
-            <Select defaultValue={year} onChange={handleChange}>
-                {years.map(y => <MenuItem value={y}>{y}</MenuItem>
-                )}
-            </Select>            
-            <IconButton onClick={incrementYear}>
-                <ArrowRightIcon/>
-            </IconButton>
-        </Stack>
+        <div style={{ padding: "10px" }}>
+            <Stack spacing={1} direction="row">
+                <IconButton onClick={decrementYear}>
+                    <ArrowLeftIcon/>
+                </IconButton>
+                <Select defaultValue={year} onChange={handleChange} style={{ backgroundColor:"white"}}>
+                    {years.map(y => <MenuItem value={y}>{y}</MenuItem>)}
+                </Select>            
+                <IconButton onClick={incrementYear}>
+                    <ArrowRightIcon/>
+                </IconButton>
+            </Stack>
+        </div>
     );
 }
 

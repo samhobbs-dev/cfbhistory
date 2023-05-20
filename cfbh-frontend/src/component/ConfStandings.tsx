@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Stack } from "@mui/material";
 import { Conference } from "../type/conference";
 import TeamRecord from "./TeamRecord";
 
@@ -6,23 +6,27 @@ interface MyProps {
     conference: Conference;
 }
 
+const divHeight = "50px";
+const height = "110px";
+const width = "260px";
+
 const ConfStandings: React.FC<MyProps> = ({ conference }) => {
     return (
         <Grid container direction="column">
-            <Paper style={{ height: "50px", width: "300px", zIndex: 0 }}>
+            <Paper component={Stack} justifyContent="center" square elevation={0} style={{ height: divHeight, width: width, zIndex: 0 }}>
                 <b>{conference.name}</b>
             </Paper>
             {conference.divisions.map(div => 
                 <>
                 <>
                     {div.name !== '' && 
-                        <Paper style={{ height: "50px", width: "300px", background: "lightgray", zIndex: 0 }}>
+                        <Paper component={Stack} justifyContent="center" square elevation={0} style={{ height: divHeight, width: width, background: "lightgray", zIndex: 0 }}>
                             <b>{div.name}</b>
                         </Paper>
                     }                    
                 </>
                 <>
-                    {div.teams.map(team => <TeamRecord record={team} />)}
+                    {div.teams.map(team => <TeamRecord record={team} height={height} width={width}/>)}
                 </>
                 </>
             )}

@@ -8,6 +8,7 @@ export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/';
 interface MyProps {
     teamId: number;
     year: number;
+    xy: number
     isSchedule?: boolean;
 }
 
@@ -22,7 +23,7 @@ const myStyle = {
 // Set this to true or false if we want to display copyrighted logos or not
 const FETCH_IMAGE = true;
 
-const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
+const TeamLogo: React.FC<MyProps> = ({ teamId, year, xy, isSchedule }) => {
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
     const [school, setSchool] = useState<string>('');
@@ -49,7 +50,7 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, year, isSchedule }) => {
         </div>    
     ) : (noImage === false ? (
             <div>
-                <img src={image} style={myStyle} alt="logo" height="auto" width="auto" title={school}/>
+                <img src={image} style={{ maxHeight: xy, maxWidth: xy, zIndex: -1 }} alt="logo" height="auto" width="auto" title={school}/>
             </div>
         ) : (
             <div>

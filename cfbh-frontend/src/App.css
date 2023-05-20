@@ -15,6 +15,18 @@
 
 .App-header {
   background-color: lightgray;
+  /* min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center; */
+  font-size: calc(6px + 2vmin);
+  font-size: 24px;
+  color: black;
+}
+
+.App-body {
+  background-color: lightgray;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +34,19 @@
   justify-content: center;
   /* font-size: calc(6px + 2vmin); */
   font-size: 24px;
+  color: black;
+  /* padding: 20px */
+}
+
+.App-footer {
+  background-color: lightgray;
+  /* min-height: 100vh; */
+  /* display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center; */
+  /* font-size: calc(6px + 2vmin); */
+  font-size: 20px;
   color: black;
 }
 

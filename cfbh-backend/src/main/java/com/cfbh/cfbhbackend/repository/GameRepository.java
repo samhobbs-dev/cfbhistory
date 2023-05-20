@@ -10,6 +10,6 @@ import com.cfbh.cfbhbackend.entity.Game;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
-    @Query(value = "SELECT * FROM games WHERE (id_home_team = ?1 or id_away_team = ?1) AND year = ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM games WHERE (id_home_team = ?1 or id_away_team = ?1) AND year = ?2 AND completed = true", nativeQuery = true)
     public List<Game> findAllByTeamIdAndYear(int team_id, int year);
 }

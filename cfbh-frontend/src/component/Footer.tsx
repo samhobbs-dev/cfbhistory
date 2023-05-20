@@ -1,23 +1,19 @@
 import { AppBar, Toolbar } from "@mui/material";
 
-const styles = {
-  customizeAppbar: {
-    minHeight: "100px"
-  }
-};
-
 const Footer: React.FC = () => {
     return (
-        <AppBar position="static" style={styles.customizeAppbar}>
+        <div>
+          <AppBar position="static" style={{ top: 'auto', bottom: 0 }}>
             <Toolbar>
-        <footer>
-            All logos courtesy of <a href="https://www.sportslogos.net">SportsLogos.net</a>.
-            All logos belong to the NCAA® and their respective schools.
-            Team and conference records sourced from publicly available records.
-            Logo sourced from Icons8.
-        </footer>
-        </Toolbar>
-        </AppBar>
+              <div>
+                  All logos courtesy of <a href="https://www.sportslogos.net">SportsLogos.net</a>.
+                  All logos belong to the NCAA® and their respective schools.
+                  Team and conference records sourced from publicly available records.
+                  Logo sourced from Icons8.
+              </div>
+            </Toolbar>
+          </AppBar>
+        </div>
     );
 }
 
