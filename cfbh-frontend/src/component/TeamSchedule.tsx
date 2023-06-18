@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
 import GameService from '../api/gameService';
@@ -36,7 +36,8 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	}
 
 	return (
-    <Grid container wrap="nowrap" spacing={1}>
+	<Stack justifyContent="space-between" width="20%">
+    <Grid container spacing={1} justifyContent="center">
 			{games.map(game => (
 				<Grid item style={{height: height, width: width}}>
 					<Paper
@@ -58,6 +59,7 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 				</Grid>
 			))}
   	</Grid>
+	</Stack>
 	);
 }
 
