@@ -40,10 +40,10 @@ const SchedulePage: React.FC<MyProps> = () => {
             />
        {isTeam && (
             <div style={{ position: "fixed", zIndex: 1, bottom: 0}}>
-                <TeamSchedule
+                {/* <TeamSchedule
                     teamId={teamId}
                     year={currentYear}
-                />
+                /> */}
             </div>
         )}
         <ConfGrid year={currentYear}/>
