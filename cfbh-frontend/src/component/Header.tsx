@@ -1,25 +1,22 @@
-import { AppBar, Toolbar, Button, Grid, Typography } from "@mui/material";
-import SearchBar from "./SearchBar";
+import { AppBar, Stack, Toolbar, Typography } from "@mui/material";
+import footballWhite from '../image/football-white.png'
 
 const Header: React.FC = () => {
     return (
         <div>
-            <AppBar position="static">
+            <AppBar position="static" sx={{ backgroundColor: "green" }}>
                 <Toolbar style={{ margin: '0 auto', width: '90%' }}>
-                    <Typography variant="h6" component="div">
-                        CFBHistory
-                    </Typography>
-                    {/* <Grid container justifyContent="center" alignItems="center" spacing={1}>
-                        <Grid item md={3} lg={3} xl={2}>
-                            <div>CFBHistory</div>
-                        </Grid>
-                        <Grid item md={3} lg={3} xl={2}>
-                            <SearchBar/>
-                        </Grid>
-                        <Grid item md={3} lg={3} xl={2}>
-                            <div>Login</div>
-                        </Grid> 
-                     </Grid>*/}
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" width="85vw">
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <img src={footballWhite} alt="logo" style={{maxHeight: "40px"}}/>
+                            <Typography sx={{ fontFamily: "Cambria" }} variant="h4" component="div">
+                                CFBHistory
+                            </Typography>
+                        </Stack>
+                        <Typography sx={{ display: "flex" }} variant="h6">
+                            Discover records, logos, and more!
+                        </Typography>
+                    </Stack>
                 </Toolbar>
             </AppBar> 
         </div>
