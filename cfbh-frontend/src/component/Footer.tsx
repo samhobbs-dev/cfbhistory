@@ -3,7 +3,7 @@ import { AppBar, Toolbar } from "@mui/material";
 const Footer: React.FC = () => {
     return (
         <div>
-          <AppBar position="static" style={{ top: 'auto', bottom: 0 }}>
+          <AppBar position="static" style={{ top: 'auto', bottom: 0, backgroundColor: "green" }}>
             <Toolbar>
               <div>
                   All logos courtesy of <a href="https://www.sportslogos.net">SportsLogos.net</a>.

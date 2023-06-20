@@ -1,6 +1,6 @@
-import { Grid, Paper, Stack } from "@mui/material";
+import { CircularProgress, Grid, Stack } from "@mui/material";
 import { useAppDispatch }  from "../store/hooks";
-import { NO_TEAM, setScheduleTeamId } from "../store/scheduleSlice";
+import { setScheduleTeamId } from "../store/scheduleSlice";
 import { SeasonRecord } from "../type/record";
 import TeamLogo from "./TeamLogo";
 
@@ -8,29 +8,40 @@ interface MyProps {
     record: SeasonRecord;
     height: string;
     width: string;
+    loading: boolean;
 }
 
-const DEBUG_SCHEDULE = false;
-
-const TeamRecord: React.FC<MyProps> = ({ record, height, width }) => {
+const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading }) => {    
     const dispatch = useAppDispatch();
     const team = record.team;
     
-    return (
+    return loading ? (
+        <Stack
+            style={{ height: height, width: width, zIndex: 0, fontSize: "21px", backgroundColor: "white" }}
+            alignContent="center" alignItems="center" justifyContent="center"
+        >
+            <CircularProgress/>
+        </Stack>
+        ) : (
         <>
-        <Paper
-            square
-            elevation={0}
-            style={{ height: height, width: width, zIndex: 0, fontSize: "21px" }}
+        <Stack
+            style={{ height: height, width: width, zIndex: 0, fontSize: "21px", backgroundColor: "white" }}
             onMouseEnter={() => dispatch(setScheduleTeamId(team.id))}
-            onMouseLeave={() => !DEBUG_SCHEDULE && dispatch(setScheduleTeamId(NO_TEAM))}>
+            // onMouseLeave={() => !DEBUG_SCHEDULE && dispatch(setScheduleTeamId(NO_TEAM))}
+            >
             <Grid container height={height} width={width} alignContent="center" alignItems="center">
                 <Grid item xs={6}>
-                    <TeamLogo teamId={team.id} year={record.year} xy={100}/>
+                    <Stack alignItems="center" alignContent="center" justifyContent="center">
+                        <TeamLogo teamId={team.id} year={record.year} xy maxHeight={100}/>
+                    </Stack>
                 </Grid>
+                {/* TODO replace container with more manual text centering */}
                 <Grid item xs={6} container direction="column" alignContent="center" alignItems="center" height="90%">
                     <Grid item container xs={7} alignContent="center" alignItems="center" width="auto">
-                        <b>{team.school}</b>
+                        {team.school.length >= 20 ?
+                        <b style={{fontSize: "18px"}}>{team.school}</b>
+                        : <b>{team.school}</b>
+                        }
                     </Grid>
                     <Grid item xs={5}>
                         <div>
@@ -42,7 +53,7 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width }) => {
                     </Grid>
                 </Grid>
             </Grid>
-        </Paper>
+        </Stack>
         </>
     );
 }
