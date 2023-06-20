@@ -1,46 +1,61 @@
-import { Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import TeamLogo from "./TeamLogo";
+import RankingService from "../api/rankingService";
+import Ranking from "../type/ranking";
+import { useEffect, useState } from "react";
 
 interface MyProps {
     year: number;
 }
 
-const PLACEHOLDER_TEAM_ID = 2;
-const rankingCount = 25;
-
-const height = "150px";
-const width = "200px";
+const height = "95px";
+const width = "150px";
 
 const Rankings: React.FC<MyProps> = ({ year }) => {
-    const rankingNumbers = Array.from({length: rankingCount}, (_, index) => index + 1);
+    const [rankings, setRankings] = useState<Ranking[]>([]);
+
+    useEffect(() => {
+        RankingService.getFinalAPRankingsByYear(year).then(response => {
+            setRankings(response as Ranking[])
+        })
+    }, [year]);
+
+    // const rankingNumbers = Array.from({length: rankingCount}, (_, index) => index + 1);
+    // Assumes rankings are already sorted from 1-25 on backend call
     return (
-        <Stack justifyContent="space-between" width="20%">
-            <Grid container spacing={1} justifyContent="center">
-				<Grid item>
-                    <Typography>
-                        Final Rankings
-                    </Typography>
-                </Grid>
-                {rankingNumbers.map(ranking => (
-				<Grid item style={{height: height, width: width}}>
-					<Paper
-						square
-						elevation={1}					
-						style={{backgroundColor: "white", height: height, width: width}}>
-						<Grid container padding={2} alignItems="center" direction="row" alignContent="center">
-							<Grid item>
-                                <Typography>
-                                    #{ranking}
-                                </Typography>
+        <Stack justifyContent="space-between">
+            {rankings.length > 0 ?
+                <Grid container justifyContent="center" direction="column">
+                    <Grid item style={{ width: width}}>
+                        <Box style={{ backgroundColor: "white", height: "25px", width: width}}>
+                            <Typography>
+                                Final AP Rankings
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    {rankings.map(r => (
+                    <Grid item>
+                        <Stack
+                            justifyContent="center"
+                            direction="row"
+                            sx={{ backgroundColor: "white", height: height, width: width}}>
+                            <Grid container direction="row" alignItems="center" padding={1}>
+                                <Grid item xs={3}>
+                                    <Typography>
+                                        #{r.ranking}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Stack alignItems="center" alignContent="center" justifyContent="center">
+                                        <TeamLogo teamId={r.teamId} year={year} xy maxHeight={80} isSchedule fontSize="18px"/>
+                                    </Stack>
+                                </Grid>
                             </Grid>
-                            <Grid item container xs={8} alignContent="center" alignItems="center" width="auto" height="50%">
-								<TeamLogo teamId={PLACEHOLDER_TEAM_ID} year={year} xy={90} isSchedule/>
-							</Grid>
-						</Grid>
-					</Paper>
-				</Grid>
-                ))}
-            </Grid>
+                        </Stack>
+                    </Grid>
+                    ))}
+                </Grid>
+            : ''}
         </Stack>
     );
 }

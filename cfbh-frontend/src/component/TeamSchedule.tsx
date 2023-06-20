@@ -1,18 +1,19 @@
-import { Paper, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
 import GameService from '../api/gameService';
 import GameStatus from '../type/gameStatus';
 import TeamGame from '../type/teamGame';
 import TeamLogo from './TeamLogo';
+import ScheduleHeader from './ScheduleHeader';
 
 interface MyProps {
     teamId: number;
     year: number;
 }
 
-const height = "150px";
-const width = height;
+const height = "65px";
+const width = "200px";
 
 const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	const [games, setGames] = useState<TeamGame[]>([]);
@@ -36,29 +37,30 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	}
 
 	return (
-	<Stack justifyContent="space-between" width="20%">
-    <Grid container spacing={1} justifyContent="center">
+	<Stack justifyContent="space-between">
+    	<Stack justifyContent="center" position="sticky" top="0">
+			<Box
+                style={{ height: "50px", width: width, backgroundColor: "white" }}
+            >
+				<ScheduleHeader teamId={teamId} year={year}/>
+			</Box>
 			{games.map(game => (
-				<Grid item style={{height: height, width: width}}>
-					<Paper
-						square
-						elevation={1}					
+					<Stack				
 						style={{backgroundColor: "white", height: height, width: width}}>
-						<Grid container padding={2} alignItems="center" direction="column" alignContent="center" width="100%" height="100%">
-							<Grid item container xs={8} alignContent="center" alignItems="center" width="auto" height="50%">
-								<TeamLogo teamId={game.opponentTeamId} year={year} xy={90} isSchedule/>
+						<Grid container padding={2} alignItems="center" direction="row" alignContent="center" width="100%" height="100%">
+							<Grid item container xs={5} justifyContent="center">
+								<TeamLogo teamId={game.opponentTeamId} year={year} maxHeight={65} xy isSchedule fontSize="16px"/>
 							</Grid>
-							<Grid item xs={4} alignContent="center" alignItems="center">
+							<Grid item xs={7} fontSize="18px">
 								<b style={{color: getGameStatusColor(game.gameStatus)}}>
 									{game.gameStatus}
 								</b>
 								{' ' + game.teamPoints + ' - ' + game.opponentTeamPoints}
 							</Grid>
 						</Grid>
-					</Paper>
-				</Grid>
+					</Stack>
 			))}
-  	</Grid>
+  		</Stack>
 	</Stack>
 	);
 }
