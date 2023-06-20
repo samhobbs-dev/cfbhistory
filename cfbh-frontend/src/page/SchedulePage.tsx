@@ -1,10 +1,11 @@
-import { Grid } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfGrid from "../component/ConfGrid";
 import ConfYear from "../component/ConfYear";
 import TeamSchedule from "../component/TeamSchedule";
 import { useAppSelector } from "../store/hooks";
 import { NO_TEAM } from "../store/scheduleSlice";
+import Rankings from "../component/Rankings";
 
 interface MyProps {
     // year?: number
@@ -38,15 +39,39 @@ const SchedulePage: React.FC<MyProps> = () => {
             incrementYear={incrementYear}
             decrementYear={decrementYear}
             />
-       {isTeam && (
+       {/* {isTeam && (
             <div style={{ position: "fixed", zIndex: 1, bottom: 0}}>
                 <TeamSchedule
                     teamId={teamId}
                     year={currentYear}
                 />
             </div>
-        )}
-        <ConfGrid year={currentYear}/>
+        )} */}
+        <Stack direction="row" justifyContent="center"  paddingLeft={5} paddingRight={5} spacing={2}>
+            {isTeam ? 
+                <TeamSchedule 
+                    teamId={teamId}
+                    year={currentYear}
+                />
+                : 
+                
+                <Stack justifyContent="space-between">
+                    <Stack justifyContent="center" position="sticky" top="0">  
+                        <Box
+                            style={{ height: "50px", width: "200px", backgroundColor: "white" }}
+                        >
+                            <Typography>
+                                Hover over a team to see their schedule.
+                            </Typography>
+                        </Box>
+                    </Stack>
+                </Stack>
+            }
+            <ConfGrid year={currentYear}/>
+            <Rankings
+                year={currentYear}
+            />
+        </Stack>
         </>
     );
 }
