@@ -4,7 +4,8 @@ import RecordService from "../api/recordService";
 import { RecordTeam } from "../type/recordTeam";
 import { useAppSelector } from "../store/hooks";
 
-export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/';
+const USE_COMPRESS: boolean = true;
+export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/' + (USE_COMPRESS ? 'compress/' : '');
 
 interface MyProps {
     teamId: number;
