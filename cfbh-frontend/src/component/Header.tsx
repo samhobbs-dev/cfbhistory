@@ -1,7 +1,11 @@
 import { AppBar, Stack, Toolbar, Typography } from "@mui/material";
 import footballWhite from '../image/football-white.png'
+import useWindowSize from "../hook/useWindowSize";
 
 const Header: React.FC = () => {
+    const windowSize = useWindowSize();
+    const width = windowSize.width;
+
     return (
         <div>
             <AppBar position="static" sx={{ backgroundColor: "green" }}>
@@ -13,9 +17,11 @@ const Header: React.FC = () => {
                                 CFBHistory
                             </Typography>
                         </Stack>
+                        {width > 650 ?
                         <Typography sx={{ display: "flex" }} variant="h6">
                             Discover records, logos, and more!
-                        </Typography>
+                        </Typography> 
+                        : ''}
                     </Stack>
                 </Toolbar>
             </AppBar> 

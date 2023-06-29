@@ -1,17 +1,19 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import TeamLogo from "./TeamLogo";
 import RankingService from "../api/rankingService";
 import Ranking from "../type/ranking";
 import { useEffect, useState } from "react";
+import Grid from '@mui/material/Unstable_Grid2';
 
 interface MyProps {
     year: number;
+    height: number;
+    width: number;
+    logoHeight: number;
 }
 
-const height = "95px";
-const width = "150px";
 
-const Rankings: React.FC<MyProps> = ({ year }) => {
+const Rankings: React.FC<MyProps> = ({ year, height, width, logoHeight }) => {
     const [rankings, setRankings] = useState<Ranking[]>([]);
 
     useEffect(() => {
@@ -26,28 +28,24 @@ const Rankings: React.FC<MyProps> = ({ year }) => {
         <Stack justifyContent="space-between">
             {rankings.length > 0 ?
                 <Grid container justifyContent="center" direction="column">
-                    <Grid item style={{ width: width}}>
+                    <Grid style={{ width: width}}>
                         <Box style={{ backgroundColor: "white", height: "25px", width: width}}>
-                            <Typography>
-                                Final AP Rankings
-                            </Typography>
+                            <Typography>Final AP Rankings</Typography>
                         </Box>
                     </Grid>
                     {rankings.map(r => (
-                    <Grid item>
+                    <Grid >
                         <Stack
                             justifyContent="center"
                             direction="row"
                             sx={{ backgroundColor: "white", height: height, width: width}}>
-                            <Grid container direction="row" alignItems="center" padding={1}>
-                                <Grid item xs={3}>
-                                    <Typography>
-                                        #{r.ranking}
-                                    </Typography>
+                            <Grid container direction="row" alignItems="center" padding={1} width={width}>
+                                <Grid xs={3}>
+                                    <Typography>#{r.ranking}</Typography>
                                 </Grid>
-                                <Grid item xs={9}>
+                                <Grid xs={9}>
                                     <Stack alignItems="center" alignContent="center" justifyContent="center">
-                                        <TeamLogo teamId={r.teamId} year={year} xy maxHeight={80} isSchedule fontSize="18px"/>
+                                        <TeamLogo teamId={r.teamId} year={year} xy maxHeight={logoHeight} isSchedule fontSize="18px"/>
                                     </Stack>
                                 </Grid>
                             </Grid>

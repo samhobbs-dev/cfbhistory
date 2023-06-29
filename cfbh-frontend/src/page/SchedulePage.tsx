@@ -6,6 +6,8 @@ import TeamSchedule from "../component/TeamSchedule";
 import { useAppSelector } from "../store/hooks";
 import { NO_TEAM } from "../store/scheduleSlice";
 import Rankings from "../component/Rankings";
+import useWindowSize from "../hook/useWindowSize";
+import { useState } from "react";
 
 interface MyProps {
     // year?: number
@@ -15,7 +17,12 @@ type MyParams = {
     year: string;
 }
 
-const SchedulePage: React.FC<MyProps> = () => {
+const SchedulePage: React.FC<MyProps> = () => {    
+    const windowSize = useWindowSize();
+    const [display, setDisplay] = useState(true);
+    const windowWidth = windowSize.width;
+    const isWideEnough = windowWidth >= 650;
+
     const teamId = useAppSelector(state => state.schedule.teamId);
     const { year } = useParams<MyParams>();
     const navigate = useNavigate();
@@ -38,17 +45,10 @@ const SchedulePage: React.FC<MyProps> = () => {
             onChange={setCurrentYear}
             incrementYear={incrementYear}
             decrementYear={decrementYear}
-            />
-       {/* {isTeam && (
-            <div style={{ position: "fixed", zIndex: 1, bottom: 0}}>
-                <TeamSchedule
-                    teamId={teamId}
-                    year={currentYear}
-                />
-            </div>
-        )} */}
+        />
         <Stack direction="row" justifyContent="center"  paddingLeft={5} paddingRight={5} spacing={2}>
-            {isTeam ? 
+            {isWideEnough &&
+            (isTeam ? 
                 <TeamSchedule 
                     teamId={teamId}
                     year={currentYear}
@@ -61,16 +61,22 @@ const SchedulePage: React.FC<MyProps> = () => {
                             style={{ height: "50px", width: "200px", backgroundColor: "white" }}
                         >
                             <Typography>
-                                Hover over a team to see their schedule.
+                                Hover over or tap a team to see their schedule.
                             </Typography>
                         </Box>
                     </Stack>
                 </Stack>
+            )
             }
             <ConfGrid year={currentYear}/>
-            <Rankings
-                year={currentYear}
-            />
+            {isWideEnough && 
+                <Rankings
+                    year={currentYear}
+                    height={95}
+                    width={150}
+                    logoHeight={80}
+                />
+            }
         </Stack>
         </>
     );
