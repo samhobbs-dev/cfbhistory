@@ -1,8 +1,8 @@
 import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import RecordService from "../api/recordService";
-import { RecordTeam } from "../type/recordTeam";
+import { Team } from "../type/team";
 import { useAppSelector } from "../store/hooks";
+import TeamService from "../api/teamService";
 
 const USE_COMPRESS: boolean = true;
 export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/' + (USE_COMPRESS ? 'compress/' : '');
@@ -23,7 +23,8 @@ const CURRENT_YEAR = 2022;
 
 const TeamLogo: React.FC<MyProps> = ({ teamId, year, maxHeight, maxWidth, xy, isSchedule, fontSize }) => {
     const useCurrentLogo = useAppSelector(state => state.currentLogo.useCurrentLogo);
-    const searchYear = useCurrentLogo ? CURRENT_YEAR - 1 : year;
+	var teams = useAppSelector(state => state.teamList.teamList);
+    // const searchYear = useCurrentLogo ? CURRENT_YEAR - 1 : year;
 
     const [image, setImage] = useState<string>('');
     const [noImage, setNoImage] = useState<boolean>(false);
@@ -36,20 +37,45 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, year, maxHeight, maxWidth, xy, is
 
     useEffect(() => {
         setLoading(true);
-        RecordService.getTeamAndLogoByYear(teamId,searchYear).then(response => {
-            let logoImage = (response as RecordTeam).logo;
-            let schoolName = (response as RecordTeam).school;
-            if (FETCH_IMAGE && logoImage !== '') {
-                logoImage = S3_LINK + logoImage;
-                setImage(logoImage);
+        var team = teams.find(t => t.id === teamId);
+        var logo = '';
+        if (team !== undefined) {
+            if (useCurrentLogo) {
+                if (team.currentLogo !== null && team.currentLogo !== undefined)
+                    logo = team.currentLogo as string;
+                else
+                    logo = '';
+            } else {
+                if (team.logo !== null && team.logo !== undefined)
+                    logo = team.logo as string;
+                else
+                    logo = '';
+            }
+            if (FETCH_IMAGE && logo !== '') {
+                logo = S3_LINK + logo;
+                setImage(logo);
                 setNoImage(false);
             } else {
                 setNoImage(true);
             }
-            setSchool(schoolName);
+            setSchool(team.school);
             setLoading(false);
-        });
-    },[teamId, searchYear]);
+        }
+        //     setLoading(false);
+        // TeamService.getTeamAndLogoByYear(teamId,searchYear).then(response => {
+        //     let logoImage = (response as Team).logo;
+        //     let schoolName = (response as Team).school;
+        //     if (FETCH_IMAGE && logoImage !== '') {
+        //         logoImage = S3_LINK + logoImage;
+        //         setImage(logoImage);
+        //         setNoImage(false);
+        //     } else {
+        //         setNoImage(true);
+        //     }
+        //     setSchool(schoolName);
+        //     setLoading(false);
+        // });
+    },[teamId, teams, useCurrentLogo]);
     
     return loading ? (
         <div>

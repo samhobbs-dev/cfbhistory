@@ -2,11 +2,6 @@
 import axios from "axios";
 import { ConfDivision, Conference } from "../type/conference";
 import { SeasonRecord } from "../type/record";
-import { RecordTeam } from "../type/recordTeam";
-
-type GetRecordsResponse = {
-    data: RecordResponse[];
-};
 
 type RecordResponse = {
     id: number;
@@ -28,27 +23,9 @@ type RecordResponse = {
     logo: string;
 }
 
-type RecordTeamResponse = {
-    id: number;
-    fullName: string;
-    school: string;
-    mascot: string;
-    // Ignoring logos[]
-}
-
 // TODO strict typing & async requests?
 export const HOST = process.env.REACT_APP_BACKEND_URL;
 const RecordService = {
-    // API calls
-    // Not currently used
-    async getAllTeamRecordsByYear(year: number) {
-        try {
-            const { data: resp } = await axios.get<GetRecordsResponse>(HOST + '/record/' + year);
-            return resp;
-        } catch (error) {
-            return 'error';
-        }
-    },
     // Group calls
     async getAllConferenceStandings(year: number) {
         const isTeamInExistingConference = (sr: SeasonRecord, confList: Conference[]) => {
@@ -115,29 +92,6 @@ const RecordService = {
             });
 
             return conferenceList;
-        } catch (error) {            
-            if (axios.isAxiosError(error)) {
-                console.log('error message: ', error.message);
-                return error.message;
-            } else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-            }
-        }
-    },
-    async getTeamAndLogoByYear(teamId: number, year: number) {
-        try {
-            const { data: logo } = await axios.get(HOST + '/logo/image/' + teamId, { params: { year } }); 
-            
-            const { data: r } = await axios.get<RecordTeamResponse>(HOST + '/team/' + teamId);
-            var teamRecord: RecordTeam = {
-                id: r.id,
-                fullName: r.fullName,
-                school: r.school,
-                mascot: r.mascot,
-                logo: logo
-            }
-            return teamRecord;
         } catch (error) {            
             if (axios.isAxiosError(error)) {
                 console.log('error message: ', error.message);

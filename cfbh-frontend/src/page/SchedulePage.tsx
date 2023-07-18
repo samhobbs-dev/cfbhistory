@@ -7,10 +7,13 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { NO_TEAM } from "../store/currentScheduleSlice";
 import Rankings from "../component/Rankings";
 import useWindowSize from "../hook/useWindowSize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameService from "../api/gameService";
 import { setTeamSchedules } from "../store/scheduleListSlice";
 import Schedule from "../type/schedule";
+import TeamService from "../api/teamService";
+import { setTeamList } from "../store/teamListSlice";
+import { Team } from "../type/team";
 
 interface MyProps {
     // year?: number
@@ -41,13 +44,21 @@ const SchedulePage: React.FC<MyProps> = () => {
         navigate("../year/"+(currentYear-1).toString());
     }
     let isTeam: boolean = teamId !== NO_TEAM;
-	
-    // const dispatch = useAppDispatch();
-	// // Call once when initialized
+
+	const dispatch = useAppDispatch();
+	// Call once when initialized
+	TeamService.getAllTeamsInYear(currentYear).then(response => {
+		dispatch(setTeamList(response as Team[]))
+	});
 	// GameService.getAllTeamSchedules(currentYear).then(response => {
     //     console.log('calling from schedulepage');
 	// 	dispatch(setTeamSchedules(response as Schedule[]))
-	// });
+    useEffect(() => {
+        // Update years once current year is changed
+        TeamService.getAllTeamsInYear(currentYear).then(response => {
+            dispatch(setTeamList(response as Team[]))
+        });
+    },[currentYear, dispatch])
     return (
         <>
         <ConfYear 

@@ -1,5 +1,7 @@
 package com.cfbh.cfbhbackend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cfbh.cfbhbackend.entity.FullTeam;
 import com.cfbh.cfbhbackend.entity.Team;
 import com.cfbh.cfbhbackend.service.TeamService;
 
@@ -26,5 +29,10 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity<Team> getTeam(@PathVariable int teamId) throws Exception {
         return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    }
+    
+    @GetMapping("/all/{year}")
+    public ResponseEntity<List<FullTeam>> getAllTeamsInYear(@PathVariable int year) throws Exception {
+        return ResponseEntity.ok().body(teamService.getAllTeamsInYear(year));
     }
 }

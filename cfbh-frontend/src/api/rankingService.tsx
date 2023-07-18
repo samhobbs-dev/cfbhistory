@@ -28,19 +28,6 @@ const RankingService = {
                 return 'An unexpected error occurred';
             }
         }
-    },
-    async getRankingsByYearAndWeek(year: number, week: number) {        
-    try {
-        // TODO implement
-        } catch (error) {            
-            if (axios.isAxiosError(error)) {
-                console.log('error message: ', error.message);
-                return error.message;
-            } else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-            }
-        }
     }
 }
 
