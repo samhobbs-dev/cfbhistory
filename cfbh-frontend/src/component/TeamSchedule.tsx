@@ -6,6 +6,9 @@ import GameStatus from '../type/gameStatus';
 import TeamGame from '../type/teamGame';
 import TeamLogo from './TeamLogo';
 import ScheduleHeader from './ScheduleHeader';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { setTeamSchedules } from '../store/scheduleListSlice';
+import Schedule from '../type/schedule';
 
 interface MyProps {
     teamId: number;
@@ -17,13 +20,24 @@ const width = "200px";
 
 const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
 	const [games, setGames] = useState<TeamGame[]>([]);
+    const dispatch = useAppDispatch();
+	var schedules = useAppSelector(state => state.scheduleList.yearSchedules);
+
+	// Update schedule list whenever year changes
+	// TODO find way to have only one call on page load
+	useEffect(() => {
+		GameService.getAllTeamSchedules(year).then(response => {
+			console.log('calling from teamschedule');
+			dispatch(setTeamSchedules(response as Schedule[]))
+		});
+	}, [dispatch, year]);
 
 	useEffect(() => {
-		GameService.getTeamGamesForYear(teamId,year).then(response => {
-			// TODO typecheck for error string
-			setGames(response as TeamGame[]);
-		});
-	}, [teamId, year]);
+		var schedule = schedules.find(s => s.teamId === teamId);
+		// TODO test this undefined check
+		if (schedule !== undefined)
+			setGames(schedule.games);
+	}, [schedules, teamId]);
 
 	const getGameStatusColor = (gameStatus: GameStatus) => {
 		switch(gameStatus) {

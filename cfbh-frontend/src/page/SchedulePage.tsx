@@ -3,11 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import ConfGrid from "../component/ConfGrid";
 import ConfYear from "../component/ConfYear";
 import TeamSchedule from "../component/TeamSchedule";
-import { useAppSelector } from "../store/hooks";
-import { NO_TEAM } from "../store/scheduleSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { NO_TEAM } from "../store/currentScheduleSlice";
 import Rankings from "../component/Rankings";
 import useWindowSize from "../hook/useWindowSize";
 import { useState } from "react";
+import GameService from "../api/gameService";
+import { setTeamSchedules } from "../store/scheduleListSlice";
+import Schedule from "../type/schedule";
 
 interface MyProps {
     // year?: number
@@ -38,6 +41,13 @@ const SchedulePage: React.FC<MyProps> = () => {
         navigate("../year/"+(currentYear-1).toString());
     }
     let isTeam: boolean = teamId !== NO_TEAM;
+	
+    // const dispatch = useAppDispatch();
+	// // Call once when initialized
+	// GameService.getAllTeamSchedules(currentYear).then(response => {
+    //     console.log('calling from schedulepage');
+	// 	dispatch(setTeamSchedules(response as Schedule[]))
+	// });
     return (
         <>
         <ConfYear 

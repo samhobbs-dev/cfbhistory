@@ -11,7 +11,7 @@ const initialState: ScheduleState = {
     teamId: NO_TEAM
 }
 
-const scheduleSlice = createSlice({
+const currentScheduleSlice = createSlice({
     name: 'schedule',
     initialState,
     reducers: {
@@ -21,6 +21,6 @@ const scheduleSlice = createSlice({
     }
 });
 
-export const { setScheduleTeamId } = scheduleSlice.actions;
+export const { setScheduleTeamId } = currentScheduleSlice.actions;
 export const selectScheduleTeamId = (state: RootState) => state.schedule.teamId;
-export default scheduleSlice.reducer;
+export default currentScheduleSlice.reducer;

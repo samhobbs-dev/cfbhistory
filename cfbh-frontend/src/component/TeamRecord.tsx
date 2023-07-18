@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, Stack } from "@mui/material";
 import { useAppDispatch }  from "../store/hooks";
-import { setScheduleTeamId } from "../store/scheduleSlice";
+import { setScheduleTeamId } from "../store/currentScheduleSlice";
 import { SeasonRecord } from "../type/record";
 import TeamLogo from "./TeamLogo";
 import useWindowSize from "../hook/useWindowSize";

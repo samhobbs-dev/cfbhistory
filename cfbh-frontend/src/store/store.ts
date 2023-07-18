@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import scheduleReducer from './scheduleSlice'
+import scheduleReducer from './currentScheduleSlice'
 import currentLogoReducer from './currentLogoSlice'
+import scheduleListReducer from './scheduleListSlice'
 
 export const store = configureStore({
   reducer: {
     schedule: scheduleReducer,
-    currentLogo: currentLogoReducer
+    currentLogo: currentLogoReducer,
+    scheduleList: scheduleListReducer
   }
 })
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import GameStatus from "../type/gameStatus";
 import TeamGame from "../type/teamGame";
 import { HOST } from "./recordService";
+import Schedule from "../type/schedule";
 
 type GameResponse = {
     id: number
@@ -16,13 +17,14 @@ type GameResponse = {
     awayTeamId: number;
 }
 
+type ScheduleResponse = {
+    teamId: number,
+    games: GameResponse[]
+}
+
 const GameService = {
-    async getTeamGamesForYear(teamId: number, year: number) {
-        try {
-            const { data: resp } = await axios.get<GameResponse[]>(HOST + '/game/' + teamId, { params: { year }});
-            var games: TeamGame[] = [];
-            resp.forEach(r => {
-                let gameStatus: GameStatus = null;
+    createScheduleGame(r: GameResponse, teamId: number) {
+        let gameStatus: GameStatus = null;
                 let opponentTeamId: number = 0;
                 let teamPoints: number = 0;
                 let opponentTeamPoints: number = 0;
@@ -58,8 +60,46 @@ const GameService = {
                     teamPoints,
                     opponentTeamPoints
                 }
+                return game;
+    },
+    createScheduleGames(gr: GameResponse[], teamId: number) {
+        var games: TeamGame[] = [];
+        gr.forEach(r => {
+            var game = this.createScheduleGame(r,teamId);
+            games.push(game);
+        });
+        return games;
+    },
+    async getAllTeamSchedules(year: number) {
+        try {
+            const { data: resp } = await axios.get<ScheduleResponse[]>(HOST + '/game/all/' + year);
+            var schedules: Schedule[] = [];
+            resp.forEach(r => {
+                var schedule: Schedule = {
+                    teamId: r.teamId,
+                    games: this.createScheduleGames(r.games,r.teamId)
+                }
+                schedules.push(schedule);
+            });
+            return schedules;
+        } catch (error) {            
+            if (axios.isAxiosError(error)) {
+                console.log('error message: ', error.message);
+                return error.message;
+            } else {
+                console.log('unexpected error: ', error);
+                return 'An unexpected error occurred';
+            }
+        }
+    },
+    async getTeamGamesForYear(teamId: number, year: number) {
+        try {
+            const { data: resp } = await axios.get<GameResponse[]>(HOST + '/game/' + teamId, { params: { year }});
+            var games: TeamGame[] = [];
+            resp.forEach(r => {
+                var game = this.createScheduleGame(r,teamId);
                 games.push(game);
-            })
+            });
             return games;
         } catch (error) {            
             if (axios.isAxiosError(error)) {

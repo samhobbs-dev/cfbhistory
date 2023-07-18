@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cfbh.cfbhbackend.entity.Game;
+import com.cfbh.cfbhbackend.entity.Schedule;
 import com.cfbh.cfbhbackend.service.GameService;
 
 @RestController
@@ -30,6 +31,12 @@ public class GameController {
     public ResponseEntity<List<Game>> getTeamGamesForSeason(@PathVariable int teamId, @RequestParam int year)
             throws Exception {
         return ResponseEntity.ok().body(gameService.getTeamGamesForSeason(teamId, year));
+    }
+
+    @GetMapping("/all/{year}")
+    public ResponseEntity<List<Schedule>> getAllTeamSchedules(@PathVariable int year)
+            throws Exception {
+        return ResponseEntity.ok().body(gameService.getAllTeamSchedules(year));
     }
 
 }

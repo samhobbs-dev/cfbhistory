@@ -40,6 +40,7 @@ type RecordTeamResponse = {
 export const HOST = process.env.REACT_APP_BACKEND_URL;
 const RecordService = {
     // API calls
+    // Not currently used
     async getAllTeamRecordsByYear(year: number) {
         try {
             const { data: resp } = await axios.get<GetRecordsResponse>(HOST + '/record/' + year);
