@@ -51,7 +51,8 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSiz
     ) : (
         <>
             {/* <ScheduleModal teamId={team.id} year={record.year}/> */}
-            {/* Potential TODO - put this modal in another component, maybe use different formatting
+            {/* TODO - put this modal in another component to be reused in Rankings, 
+            maybe use different formatting
             instead of reusing TeamSchedule component
         */}
             {(!isWellWideEnough || !isHighEnough) &&

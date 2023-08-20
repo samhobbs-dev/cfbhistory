@@ -44,7 +44,7 @@ const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, dec
                 <IconButton onClick={decrementYear}>
                     <ArrowLeftIcon/>
                 </IconButton>
-                <Select defaultValue={year} onChange={handleChange} style={{ backgroundColor:'white'}}>
+                <Select value={year} onChange={handleChange} style={{ backgroundColor:'white'}}>
                     {years.map(y => <MenuItem key={y} value={y}>{y}</MenuItem>)}
                 </Select>            
                 <IconButton onClick={incrementYear}>
