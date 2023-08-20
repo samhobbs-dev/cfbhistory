@@ -1,4 +1,4 @@
-import { SeasonRecord } from "./record";
+import { SeasonRecord } from './record';
 
 export type Conference = {
     name: string;

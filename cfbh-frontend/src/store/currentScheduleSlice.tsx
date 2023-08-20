@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export interface ScheduleState {
     teamId: number
@@ -9,7 +9,7 @@ export const NO_TEAM: number = -1;
 
 const initialState: ScheduleState = {
     teamId: NO_TEAM
-}
+};
 
 const currentScheduleSlice = createSlice({
     name: 'schedule',

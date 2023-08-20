@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, IconButton, MenuItem, Select, Stack, Switch, Typography } from '@mui/material';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -19,7 +21,6 @@ const FIRST_YEAR = 1897;
 
 const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, decrementYear }) => {
     const windowSize = useWindowSize();
-    const [display, setDisplay] = useState(true);
     const windowWidth = windowSize.width;
     const isWideEnough = windowWidth >= 650;
 
@@ -28,36 +29,34 @@ const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, dec
     useEffect(() => {
         setYear(defaultYear);
     },[defaultYear]);
-    var years = Array.from({ length: CURRENT_YEAR - FIRST_YEAR}, (value, index) => index + FIRST_YEAR);
+    const years = Array.from({ length: CURRENT_YEAR - FIRST_YEAR}, (value, index) => index + FIRST_YEAR);
     function handleChange(event: any) {
         onChange(event.target.value);
     }
     return (
-        <div style={{ padding: "10px" }}>
-            <Stack spacing={2} direction="row" alignItems="center" width="90vw">
-                <Box width="20%">
-                    {!isWideEnough && 
+        <Stack spacing={2} direction="row" alignItems="center" width="90vw">
+            <Box width="20%">
+                {!isWideEnough && 
                         <RankingsModal year={year}/>
-                    }
-                </Box>
-                <Stack spacing={1} direction="row" justifyContent="center" width="60%">
-                    <IconButton onClick={decrementYear}>
-                        <ArrowLeftIcon/>
-                    </IconButton>
-                    <Select defaultValue={year} onChange={handleChange} style={{ backgroundColor:"white"}}>
-                        {years.map(y => <MenuItem value={y}>{y}</MenuItem>)}
-                    </Select>            
-                    <IconButton onClick={incrementYear}>
-                        <ArrowRightIcon/>
-                    </IconButton>
-                </Stack>
-                <Stack direction="row" alignItems="center" justifyContent="center" width="20%">
-                    <Typography>Current Logos</Typography>
-                    <Switch onChange={() => dispatch(setUseCurrentLogo())}/>
-                </Stack>
+                }
+            </Box>
+            <Stack spacing={1} direction="row" justifyContent="center" width="60%">
+                <IconButton onClick={decrementYear}>
+                    <ArrowLeftIcon/>
+                </IconButton>
+                <Select defaultValue={year} onChange={handleChange} style={{ backgroundColor:'white'}}>
+                    {years.map(y => <MenuItem key={y} value={y}>{y}</MenuItem>)}
+                </Select>            
+                <IconButton onClick={incrementYear}>
+                    <ArrowRightIcon/>
+                </IconButton>
             </Stack>
-        </div>
+            <Stack direction="row" alignItems="center" justifyContent="center" width="20%">
+                <Typography>Current Logos</Typography>
+                <Switch onChange={() => dispatch(setUseCurrentLogo())}/>
+            </Stack>
+        </Stack>
     );
-}
+};
 
 export default ConfYear;

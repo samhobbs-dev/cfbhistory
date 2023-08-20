@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export interface CurrentLogoState {
     useCurrentLogo: boolean
@@ -7,7 +7,7 @@ export interface CurrentLogoState {
 
 const initialState: CurrentLogoState = {
     useCurrentLogo: false
-}
+};
 
 const currentLogoSlice = createSlice({
     name: 'currentLogo',

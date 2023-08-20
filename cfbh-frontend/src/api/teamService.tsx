@@ -1,6 +1,6 @@
-import axios from "axios";
-import { Team } from "../type/team";
-import { HOST } from "./recordService";
+import axios from 'axios';
+import { Team } from '../type/team';
+import { HOST } from './recordService';
 
 type TeamResponse = {
     id: number;
@@ -8,15 +8,6 @@ type TeamResponse = {
     school: string;
     mascot: string;
     // Ignoring logos[]
-}
-
-type FullTeamResponse = {
-    id: number;
-    fullName: string;
-    school: string;
-    mascot: string;
-    // Backend will fetch team's logo for specified year
-    logo: string;
 }
 
 const TeamService = {    
@@ -39,13 +30,13 @@ const TeamService = {
             const { data: logo } = await axios.get(HOST + '/logo/image/' + teamId, { params: { year } }); 
             
             const { data: r } = await axios.get<TeamResponse>(HOST + '/team/' + teamId);
-            var teamRecord: Team = {
+            const teamRecord: Team = {
                 id: r.id,
                 fullName: r.fullName,
                 school: r.school,
                 mascot: r.mascot,
                 logo: logo
-            }
+            };
             return teamRecord;
         } catch (error) {            
             if (axios.isAxiosError(error)) {
@@ -57,5 +48,5 @@ const TeamService = {
             }
         }
     }
-}
+};
 export default TeamService;

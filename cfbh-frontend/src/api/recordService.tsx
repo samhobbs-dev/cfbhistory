@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
-import axios from "axios";
-import { ConfDivision, Conference } from "../type/conference";
-import { SeasonRecord } from "../type/record";
+import axios from 'axios';
+import { ConfDivision, Conference } from '../type/conference';
+import { SeasonRecord } from '../type/record';
 
 type RecordResponse = {
     id: number;
@@ -29,24 +29,24 @@ const RecordService = {
     // Group calls
     async getAllConferenceStandings(year: number) {
         const isTeamInExistingConference = (sr: SeasonRecord, confList: Conference[]) => {
-            for (var i = 0; i < confList.length; i++)
+            for (let i = 0; i < confList.length; i++)
                 if (sr.conference === confList[i].name)
                     return i;
             return -1;
-        }
+        };
 
         const isTeamInExistingDivision = (sr: SeasonRecord, divList: ConfDivision[]) => {
-            for (var i = 0; i < divList.length; i++)
+            for (let i = 0; i < divList.length; i++)
                 if (sr.division === divList[i].name)
                     return i;
             return -1;
-        }
+        };
         // Get all team records, organize everything into conferences & divisons, & sort        
         try {
             const { data: resp } = await axios.get<RecordResponse[]>(HOST + '/record/' + year);
-            let conferenceList: Conference[] = [];
+            const conferenceList: Conference[] = [];
             resp.forEach(r => {
-                var sr: SeasonRecord = {
+                const sr: SeasonRecord = {
                     id: r.id,
                     team: {
                         id: r.team.id,
@@ -64,27 +64,27 @@ const RecordService = {
                     totalConfWins: r.totalConfWins,
                     totalConfLosses: r.totalConfLosses,
                     totalConfTies: r.totalConfTies
-                }
+                };
                 // For every team record, see if team's conference is in conf list
                 // If not, add new conference, w/team's division
-                var confIndex: number;
-                var divIndex: number;
+                let confIndex: number;
+                let divIndex: number;
                 if ((confIndex = isTeamInExistingConference(sr,conferenceList)) === -1) {
-                    let newConf: Conference = {
+                    const newConf: Conference = {
                         name: sr.conference,
                         divisions: new Array({
                             name: sr.division,
                             teams: new Array(sr)
                         }),
                         logo: null  // TODO add conference logo functionality
-                    }
+                    };
                     conferenceList.push(newConf);
                 } else if ((divIndex = isTeamInExistingDivision(sr,conferenceList[confIndex].divisions)) === -1) {
                     // If team is of existing conference but non-existing division, add division
-                    let newDiv: ConfDivision = {
+                    const newDiv: ConfDivision = {
                         name: sr.division,
                         teams: new Array(sr)
-                    }
+                    };
                     conferenceList[confIndex].divisions.push(newDiv);
                 } else {    // Add team to existing conference/division
                     conferenceList[confIndex].divisions[divIndex].teams.push(sr);
@@ -102,6 +102,6 @@ const RecordService = {
             }
         }
     }
-}
+};
 
 export default RecordService;

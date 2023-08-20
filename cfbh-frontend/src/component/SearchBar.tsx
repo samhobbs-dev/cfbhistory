@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField } from '@mui/material';
 
 const SearchBar: React.FC = () => {
     return (
@@ -8,6 +8,6 @@ const SearchBar: React.FC = () => {
             />
         </form>
     );
-}
+};
 
 export default SearchBar;

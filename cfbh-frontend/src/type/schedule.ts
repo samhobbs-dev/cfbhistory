@@ -1,4 +1,4 @@
-import TeamGame from "./teamGame"
+import TeamGame from './teamGame';
 
 type Schedule = {
     teamId: number,

@@ -1,9 +1,14 @@
-import { Box, CircularProgress, Grid, Stack } from "@mui/material";
-import { useAppDispatch }  from "../store/hooks";
-import { setScheduleTeamId } from "../store/currentScheduleSlice";
-import { SeasonRecord } from "../type/record";
-import TeamLogo from "./TeamLogo";
-import useWindowSize from "../hook/useWindowSize";
+/* eslint-disable react/prop-types */
+import { Box, CircularProgress, Grid, Modal, Stack } from '@mui/material';
+// import Grid from '@mui/material/Unstable_Grid2';
+import { useAppDispatch }  from '../store/hooks';
+import { setScheduleTeamId } from '../store/currentScheduleSlice';
+import { SeasonRecord } from '../type/record';
+import TeamLogo from './TeamLogo';
+import useWindowSize from '../hook/useWindowSize';
+import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import TeamSchedule from './TeamSchedule';
 
 interface MyProps {
     record: SeasonRecord;
@@ -14,15 +19,20 @@ interface MyProps {
 }
 
 const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSize }) => {   
+    const [showModal, setShowModal] = useState(false);
+    function closeModal() {
+        setShowModal(false);
+    }
     const windowSize = useWindowSize();
     const windowWidth = windowSize.width;
-    const isWellWideEnough = windowWidth >= 600;
+    const isWellWideEnough = windowWidth >= 650;
     const isWideEnough = windowWidth >= 1000;
+    const isHighEnough = windowSize.height >= 650;
     
     const dispatch = useAppDispatch();
     const team = record.team;
     const logoHeight = height - 10;
-    var shrinkFont: boolean = false;
+    let shrinkFont: boolean = false;
     if (isWideEnough) {
         if (team.school.length > 20)
             shrinkFont = true;
@@ -33,43 +43,61 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSiz
 
     return loading ? (
         <Stack
-            style={{ height: height, width: width, zIndex: 0, fontSize: fontSize, backgroundColor: "white" }}
+            style={{ height: height, width: width, zIndex: 0, fontSize: fontSize, backgroundColor: 'white' }}
             alignContent="center" alignItems="center" justifyContent="center"
         >
             <CircularProgress/>
         </Stack>
-        ) : (
+    ) : (
         <>
-        <Stack
-            style={{ height: height, width: width, zIndex: 0, fontSize: fontSize, backgroundColor: "white" }}
-            onMouseEnter={() => dispatch(setScheduleTeamId(team.id))}
-            >
-            <Grid container height={height} width={width} alignContent="center" alignItems="center">
-                <Grid item xs={isWideEnough ? 6 : 4}>
-                    <Stack alignItems="center" alignContent="center" justifyContent="center">
-                        <TeamLogo teamId={team.id} year={record.year} xy maxHeight={logoHeight}/>
+            {/* <ScheduleModal teamId={team.id} year={record.year}/> */}
+            {/* Potential TODO - put this modal in another component, maybe use different formatting
+            instead of reusing TeamSchedule component
+        */}
+            {(!isWellWideEnough || !isHighEnough) &&
+            <Modal open={showModal} onClose={() => closeModal()} sx={{overflowY: 'scroll'}}>
+                <Box alignItems="center" sx={{ top: 0, left: 0, width: '100%', background: 'white'}}>
+                    <CloseIcon
+                        fontSize="large"
+                        onClick={() => closeModal()}
+                    />
+                    <Stack direction="row" justifyContent="center" paddingLeft={5} paddingRight={5} spacing={2}>
+                        <TeamSchedule teamId={team.id} year={record.year}/>
                     </Stack>
-                </Grid>
-                {/* TODO replace container with more manual text centering */}
-                <Grid item xs={isWideEnough ? 6 : 8} container direction="column" alignContent="center" alignItems="center" height="90%">
-                    <Grid item container xs={7} justifyContent="center" alignContent="center" alignItems="center" width="auto">
-                        <b style={{ fontSize: shrinkFont ? fontSize - 3 : fontSize }}>
-                            {team.school}
-                        </b>
+                </Box>
+            </Modal>
+            }
+            <Stack
+                style={{ height: height, width: width, zIndex: 0, fontSize: fontSize, backgroundColor: 'white' }}
+                onMouseEnter={() => dispatch(setScheduleTeamId(team.id))}
+                onClick={() => setShowModal(true)}
+            >
+                <Grid container height={height} width={width} alignContent="center" alignItems="center">
+                    <Grid item xs={isWideEnough ? 6 : 4}>
+                        <Stack alignItems="center" alignContent="center" justifyContent="center">
+                            <TeamLogo teamId={team.id} xy maxHeight={logoHeight}/>
+                        </Stack>
                     </Grid>
-                    <Grid item xs={5}>
-                        <Box fontSize={fontSize}>
-                            {record.totalWins + '-' + record.totalLosses}
-                            {record.totalTies > 0 ? record.totalTies : ''}
-                            {' (' + record.totalConfWins + '-' + record.totalConfLosses}
-                            {record.totalConfTies > 0 ? record.totalConfTies + ')' : ')'}
-                        </Box>
+                    {/* TODO replace container with more manual text centering */}
+                    <Grid item xs={isWideEnough ? 6 : 8} container direction="column" wrap="nowrap" alignContent="center" alignItems="center" height="90%">
+                        <Grid item container xs={7} justifyContent="center" alignContent="center" alignItems="center" width="auto">
+                            <b style={{ fontSize: shrinkFont ? fontSize - 3 : fontSize - 2 }}>
+                                {team.school}
+                            </b>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <Box fontSize={fontSize}>
+                                {record.totalWins + '-' + record.totalLosses}
+                                {record.totalTies > 0 ? record.totalTies : ''}
+                                {' (' + record.totalConfWins + '-' + record.totalConfLosses}
+                                {record.totalConfTies > 0 ? record.totalConfTies + ')' : ')'}
+                            </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Stack>
+            </Stack>
         </>
     );
-}
+};
 
 export default TeamRecord;

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { HOST } from "./recordService";
+import axios from 'axios';
+import { HOST } from './recordService';
 
 type RankingResponse = {
     id: number;
@@ -29,6 +29,6 @@ const RankingService = {
             }
         }
     }
-}
+};
 
 export default RankingService;

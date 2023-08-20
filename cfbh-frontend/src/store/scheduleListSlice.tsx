@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Schedule from "../type/schedule";
-import { RootState } from "./store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Schedule from '../type/schedule';
 
 export interface ScheduleListState {
     yearSchedules: Schedule[]
@@ -8,7 +7,7 @@ export interface ScheduleListState {
 
 const initialState: ScheduleListState = {
     yearSchedules: []
-}
+};
 
 const scheduleListSlice = createSlice({
     name: 'scheduleList',
