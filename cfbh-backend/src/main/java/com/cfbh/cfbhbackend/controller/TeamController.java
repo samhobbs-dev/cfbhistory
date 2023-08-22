@@ -19,7 +19,8 @@ import com.cfbh.cfbhbackend.service.TeamService;
         "http://localhost:3000",
         "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com:3000",
         "http://ec2-18-223-193-4.us-east-2.compute.amazonaws.com",
-        "http://cfbhistory.net"
+        "http://cfbhistory.net",
+        "https://main.d2b1gwg20r4wph.amplifyapp.com"
 })
 @RequestMapping("/team")
 public class TeamController {
