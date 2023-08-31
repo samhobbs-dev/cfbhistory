@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import GameService from '../api/gameService';
@@ -25,6 +25,7 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
     const windowHeight = windowSize.height;
 
     const [games, setGames] = useState<TeamGame[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const dispatch = useAppDispatch();
     const schedules = useAppSelector(state => state.scheduleList.yearSchedules);
     let logoHeight = 65;    // Default value
@@ -39,8 +40,10 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
     // Update schedule list whenever year changes
     // TODO find way to have only one call on page load
     useEffect(() => {
+        setLoading(true);
         GameService.getAllTeamSchedules(year).then(response => {
             dispatch(setTeamSchedules(response as Schedule[]));
+            setLoading(false);
         });
     }, [dispatch, year]);
 
@@ -72,23 +75,29 @@ const TeamSchedule: React.FC<MyProps> = ({ teamId, year }) => {
                 >
                     <ScheduleHeader teamId={teamId} year={year}/>
                 </Box>
-                {games.map(game => (
-                    <Stack
-                        key={0}		
-                        style={{backgroundColor: 'white', height: logoHeight, width: width}}>
-                        <Grid container padding={2} alignItems="center" direction="row" alignContent="center" width="100%" height="100%">
-                            <Grid container xs={5} justifyContent="center">
-                                <TeamLogo teamId={game.opponentTeamId} maxHeight={logoHeight-3} xy isSchedule fontSize={fontSize}/>
+                {loading ?
+                    <Stack style={{backgroundColor: 'white', height: logoHeight, width: width}}
+                        alignContent="center" alignItems="center" justifyContent="center"
+                    >
+                        <CircularProgress/>
+                    </Stack>            
+                    : games.map(game => (
+                        <Stack
+                            key={0}		
+                            style={{backgroundColor: 'white', height: logoHeight, width: width}}>
+                            <Grid container padding={2} alignItems="center" direction="row" alignContent="center" width="100%" height="100%">
+                                <Grid container xs={5} justifyContent="center">
+                                    <TeamLogo teamId={game.opponentTeamId} maxHeight={logoHeight-3} xy isSchedule fontSize={fontSize}/>
+                                </Grid>
+                                <Grid xs={7} fontSize="18px">
+                                    <b style={{color: getGameStatusColor(game.gameStatus)}}>
+                                        {game.gameStatus}
+                                    </b>
+                                    {' ' + game.teamPoints + ' - ' + game.opponentTeamPoints}
+                                </Grid>
                             </Grid>
-                            <Grid xs={7} fontSize="18px">
-                                <b style={{color: getGameStatusColor(game.gameStatus)}}>
-                                    {game.gameStatus}
-                                </b>
-                                {' ' + game.teamPoints + ' - ' + game.opponentTeamPoints}
-                            </Grid>
-                        </Grid>
-                    </Stack>
-                ))}
+                        </Stack>
+                    ))}
             </Stack>
         </Stack>
     );
