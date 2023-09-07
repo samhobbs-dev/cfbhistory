@@ -18,11 +18,14 @@ interface MyProps {
 
 const CURRENT_YEAR = 2023;  // Last year with data + 1
 const FIRST_YEAR = 1897;
+const arrowWidth = 40;
 
 const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, decrementYear }) => {
     const windowSize = useWindowSize();
     const windowWidth = windowSize.width;
     const isWideEnough = windowWidth >= 650;
+    const isFirstYear = defaultYear === FIRST_YEAR;
+    const isCurrentYear = defaultYear === CURRENT_YEAR - 1;
 
     const dispatch = useAppDispatch();
     const [year, setYear] = useState(defaultYear);
@@ -37,19 +40,27 @@ const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, dec
         <Stack spacing={2} direction="row" alignItems="center" width="90vw">
             <Box width="20%">
                 {!isWideEnough && 
-                        <RankingsModal year={year}/>
+                    <RankingsModal year={year}/>
                 }
             </Box>
             <Stack spacing={1} direction="row" justifyContent="center" width="60%">
-                <IconButton onClick={decrementYear}>
-                    <ArrowLeftIcon/>
-                </IconButton>
+                <Box display="flex" width={arrowWidth}>
+                    {!isFirstYear &&
+                        <IconButton onClick={decrementYear}>
+                            <ArrowLeftIcon/>
+                        </IconButton>
+                    }
+                </Box>
                 <Select value={year} onChange={handleChange} style={{ backgroundColor:'white'}}>
                     {years.map(y => <MenuItem key={y} value={y}>{y}</MenuItem>)}
                 </Select>            
-                <IconButton onClick={incrementYear}>
-                    <ArrowRightIcon/>
-                </IconButton>
+                <Box display="flex" width={arrowWidth}>
+                    {!isCurrentYear &&
+                        <IconButton onClick={incrementYear}>
+                            <ArrowRightIcon/>
+                        </IconButton>
+                    }
+                </Box>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="center" width="20%">
                 <Typography>Current Logos</Typography>

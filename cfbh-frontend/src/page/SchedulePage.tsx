@@ -77,9 +77,9 @@ const SchedulePage: React.FC<MyProps> = () => {
                 <Stack justifyContent="space-between">
                     <Stack justifyContent="center" position="sticky" top="0">  
                         <Box
-                            style={{ height: '50px', width: '200px', backgroundColor: 'white' }}
+                            style={{ height: '55px', width: '200px', backgroundColor: 'white' }}
                         >
-                            <Typography>
+                            <Typography style={{ margin: 2, fontSize: 16 }}>
                                 Hover over or tap a team to see their schedule.
                             </Typography>
                         </Box>
