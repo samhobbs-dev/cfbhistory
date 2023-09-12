@@ -4,6 +4,7 @@ import SchedulePage from './page/SchedulePage';
 import { BrowserRouter, Route, Navigate, Routes } from 'react-router-dom';
 import Header from './component/Header';
 import Footer from './component/Footer';
+import NotFoundPage from './page/NotFoundPage';
 
 function App() {
     return (
@@ -24,6 +25,12 @@ function App() {
                             path="year/:year"
                             element={
                                 <SchedulePage/>
+                            }
+                        />
+                        <Route
+                            path="*"
+                            element={
+                                <NotFoundPage/>
                             }
                         />
                     </Routes>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../store/hooks';
 
 const USE_COMPRESS: boolean = true;
-export const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/' + (USE_COMPRESS ? 'compress/' : '');
+const S3_LINK: string = 'https://cfbh-logos.s3.us-east-2.amazonaws.com/' + (USE_COMPRESS ? 'compress/' : '');
 
 interface MyProps {
     teamId: number;

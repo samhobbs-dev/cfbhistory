@@ -7,6 +7,7 @@ import useWindowSize from '../hook/useWindowSize';
 import { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { zoomWidth } from '../const/const';
 
 interface MyProps {
     conference: Conference;
@@ -16,13 +17,12 @@ interface MyProps {
 const ConfStandings: React.FC<MyProps> = ({ conference, loading }) => {
     const windowSize = useWindowSize();
     const [display, setDisplay] = useState(true);
-    const windowWidth = windowSize.width;
-    const isWideEnough = windowWidth >= 1000;
+    const isZoomWidth = windowSize.width >= zoomWidth;
 
-    const divHeight = isWideEnough? 50 : 30;
-    const height = isWideEnough ? 110 : 70;
-    const width = isWideEnough ? 260 : 220;
-    const fontSize = isWideEnough ? 21 : 18;
+    const divHeight = isZoomWidth ? 50 : 30;
+    const height = isZoomWidth ? 110 : 70;
+    const width = isZoomWidth ? 260 : 220;
+    const fontSize = isZoomWidth ? 21 : 18;
 
     return (
         <Grid container direction="column">

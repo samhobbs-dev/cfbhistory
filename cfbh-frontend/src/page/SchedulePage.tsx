@@ -11,27 +11,23 @@ import { useEffect } from 'react';
 import TeamService from '../api/teamService';
 import { setTeamList } from '../store/teamListSlice';
 import { Team } from '../type/team';
-
-interface MyProps {
-    // year?: number
-}
+import { FIRST_YEAR, desktopHeight, desktopWidth } from '../const/const';
 
 type MyParams = {
     year: string;
 }
 
-const SchedulePage: React.FC<MyProps> = () => {    
+const SchedulePage: React.FC = () => {    
     const windowSize = useWindowSize();
-    const windowWidth = windowSize.width;
-    const windowHeight = windowSize.height;
-    const isWideEnough = windowWidth >= 650;
-    const isHighEnough = windowHeight >= 650;
+    const isDesktopWidth = windowSize.width >= desktopWidth;
+    const isDesktopHeight = windowSize.height >= desktopHeight;
 
     const teamId = useAppSelector(state => state.schedule.teamId);
     const { year } = useParams<MyParams>();
     const navigate = useNavigate();
     // TODO error check/exception redirect if it's not a parsable int
     const currentYear: number = parseInt(year as string);
+    const isValidYear = currentYear >= FIRST_YEAR && currentYear < 2023;
     function setCurrentYear(year: number){
         navigate('../year/'+(year).toString());
     }
@@ -55,18 +51,19 @@ const SchedulePage: React.FC<MyProps> = () => {
         });
     },[currentYear, dispatch]);
     return (
-        <Stack direction="column" alignItems="center" spacing={1} paddingTop={1}>
-            {(!isWideEnough || !isHighEnough) && 
+        isValidYear ?
+            <Stack direction="column" alignItems="center" spacing={1} paddingTop={1}>
+                {(!isDesktopWidth || !isDesktopHeight) && 
             <Typography>Tap a team to view its schedule.</Typography>
-            }
-            <ConfYear 
-                defaultYear={currentYear}
-                onChange={setCurrentYear}
-                incrementYear={incrementYear}
-                decrementYear={decrementYear}
-            />
-            <Stack direction="row" justifyContent="center" paddingLeft={5} paddingRight={5} spacing={2}>
-                {isWideEnough && isHighEnough &&
+                }
+                <ConfYear 
+                    defaultYear={currentYear}
+                    onChange={setCurrentYear}
+                    incrementYear={incrementYear}
+                    decrementYear={decrementYear}
+                />
+                <Stack direction="row" justifyContent="center" paddingLeft={5} paddingRight={5} spacing={2}>
+                    {isDesktopWidth && isDesktopHeight &&
             (isTeam ? 
                 <TeamSchedule 
                     teamId={teamId}
@@ -86,18 +83,21 @@ const SchedulePage: React.FC<MyProps> = () => {
                     </Stack>
                 </Stack>
             )
-                }
-                <ConfGrid year={currentYear}/>
-                {isWideEnough && 
+                    }
+                    <ConfGrid year={currentYear}/>
+                    {isDesktopWidth && 
                 <Rankings
                     year={currentYear}
                     height={95}
                     width={160}
                     logoHeight={80}
                 />
-                }
-            </Stack>
-        </Stack>
+                    }
+                </Stack>
+            </Stack> :
+            <>
+                <h1>Invalid Year</h1>
+            </>            
     );
 };
 

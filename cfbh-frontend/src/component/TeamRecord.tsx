@@ -9,6 +9,7 @@ import useWindowSize from '../hook/useWindowSize';
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import TeamSchedule from './TeamSchedule';
+import { desktopHeight, desktopWidth, zoomWidth } from '../const/const';
 
 interface MyProps {
     record: SeasonRecord;
@@ -24,16 +25,15 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSiz
         setShowModal(false);
     }
     const windowSize = useWindowSize();
-    const windowWidth = windowSize.width;
-    const isWellWideEnough = windowWidth >= 650;
-    const isWideEnough = windowWidth >= 1000;
-    const isHighEnough = windowSize.height >= 650;
+    const isDesktopWidth = windowSize.width >= desktopWidth;
+    const isZoomWidth = windowSize.width >= zoomWidth;
+    const isDesktopHeight = windowSize.height >= desktopHeight;
     
     const dispatch = useAppDispatch();
     const team = record.team;
     const logoHeight = height - 10;
     let shrinkFont: boolean = false;
-    if (isWideEnough) {
+    if (isZoomWidth) {
         if (team.school.length > 20)
             shrinkFont = true;
     } else {
@@ -55,12 +55,13 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSiz
             maybe use different formatting
             instead of reusing TeamSchedule component
         */}
-            {(!isWellWideEnough || !isHighEnough) &&
+            {(!isDesktopWidth || !isDesktopHeight) &&
             <Modal open={showModal} onClose={() => closeModal()} sx={{overflowY: 'scroll'}}>
                 <Box alignItems="center" sx={{ top: 0, left: 0, width: '100%', background: 'white'}}>
                     <CloseIcon
                         fontSize="large"
                         onClick={() => closeModal()}
+                        sx={{ position: 'sticky' }}
                     />
                     <Stack direction="row" justifyContent="center" paddingLeft={5} paddingRight={5} spacing={2}>
                         <TeamSchedule teamId={team.id} year={record.year}/>
@@ -74,13 +75,13 @@ const TeamRecord: React.FC<MyProps> = ({ record, height, width, loading, fontSiz
                 onClick={() => setShowModal(true)}
             >
                 <Grid container height={height} width={width} alignContent="center" alignItems="center">
-                    <Grid item xs={isWideEnough ? 6 : 4}>
+                    <Grid item xs={isZoomWidth ? 6 : 4}>
                         <Stack alignItems="center" alignContent="center" justifyContent="center">
                             <TeamLogo teamId={team.id} xy maxHeight={logoHeight}/>
                         </Stack>
                     </Grid>
                     {/* TODO replace container with more manual text centering */}
-                    <Grid item xs={isWideEnough ? 6 : 8} container direction="column" wrap="nowrap" alignContent="center" alignItems="center" height="90%">
+                    <Grid item xs={isZoomWidth ? 6 : 8} container direction="column" wrap="nowrap" alignContent="center" alignItems="center" height="90%">
                         <Grid item container xs={7} justifyContent="center" alignContent="center" alignItems="center" width="auto">
                             <b style={{ fontSize: shrinkFont ? fontSize - 3 : fontSize - 2 }}>
                                 {team.school}

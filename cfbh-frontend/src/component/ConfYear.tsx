@@ -8,6 +8,7 @@ import { useAppDispatch } from '../store/hooks';
 import { setUseCurrentLogo } from '../store/currentLogoSlice';
 import RankingsModal from './RankingsModal';
 import useWindowSize from '../hook/useWindowSize';
+import { CURRENT_YEAR, FIRST_YEAR, desktopWidth } from '../const/const';
 
 interface MyProps {
     defaultYear: number,
@@ -16,14 +17,11 @@ interface MyProps {
     decrementYear: any
 }
 
-const CURRENT_YEAR = 2023;  // Last year with data + 1
-const FIRST_YEAR = 1897;
 const arrowWidth = 40;
 
 const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, decrementYear }) => {
     const windowSize = useWindowSize();
-    const windowWidth = windowSize.width;
-    const isWideEnough = windowWidth >= 650;
+    const isDesktopWidth = windowSize.width >= desktopWidth;
     const isFirstYear = defaultYear === FIRST_YEAR;
     const isCurrentYear = defaultYear === CURRENT_YEAR - 1;
 
@@ -39,7 +37,7 @@ const ConfYear: React.FC<MyProps> = ({ defaultYear, onChange, incrementYear, dec
     return (
         <Stack spacing={2} direction="row" alignItems="center" width="90vw">
             <Box width="20%">
-                {!isWideEnough && 
+                {!isDesktopWidth && 
                     <RankingsModal year={year}/>
                 }
             </Box>
