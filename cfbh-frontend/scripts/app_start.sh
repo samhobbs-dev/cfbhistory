@@ -1,4 +1,6 @@
+echo $HOME
 source /home/ubuntu/.profile
+source /home/ubuntu/.bashrc
 cd /home/ubuntu/cfbh-frontend
 nvm -v
 npm -v
