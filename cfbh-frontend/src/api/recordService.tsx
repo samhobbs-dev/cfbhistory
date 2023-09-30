@@ -20,7 +20,7 @@ type RecordResponse = {
     totalConfWins: number;
     totalConfLosses: number;
     totalConfTies: number;
-    logo: string;
+    // logo: string;
 }
 
 // TODO strict typing & async requests?
@@ -53,7 +53,7 @@ const RecordService = {
                         fullName: r.team.fullName,
                         school: r.team.school,
                         mascot: r.team.mascot,
-                        logo: r.logo
+                        logo: null
                     },
                     year: r.year,
                     division: r.division,

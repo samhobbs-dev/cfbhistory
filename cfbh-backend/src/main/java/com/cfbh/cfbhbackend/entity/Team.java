@@ -2,6 +2,7 @@ package com.cfbh.cfbhbackend.entity;
 
 import java.util.Set;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,4 +29,8 @@ public class Team {
     private String school;
     @Column
     private String mascot;
+    // @Basic(optional = true)
+    // private String logo;
+    // @Basic(optional = true)
+    // private String currentLogo;    
 }

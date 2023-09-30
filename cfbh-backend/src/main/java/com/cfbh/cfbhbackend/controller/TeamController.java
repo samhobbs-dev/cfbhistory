@@ -27,10 +27,10 @@ public class TeamController {
     @Autowired
     TeamService teamService;
 
-    @GetMapping("/{teamId}")
-    public ResponseEntity<Team> getTeam(@PathVariable int teamId) throws Exception {
-        return ResponseEntity.ok().body(teamService.getTeam(teamId));
-    }
+    // @GetMapping("/{teamId}")
+    // public ResponseEntity<Team> getTeam(@PathVariable int teamId) throws Exception {
+    //     return ResponseEntity.ok().body(teamService.getTeam(teamId));
+    // }
     
     @GetMapping("/all/{year}")
     public ResponseEntity<List<FullTeam>> getAllTeamsInYear(@PathVariable int year) throws Exception {
