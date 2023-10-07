@@ -7,6 +7,7 @@ const Header: React.FC = () => {
     const width = windowSize.width;
 
     return (
+        // Position is relative so SchedulePage can stick to its top
         <div>
             <AppBar position="static" sx={{ backgroundColor: 'green' }}>
                 <Toolbar style={{ margin: '0 auto', width: '90%' }}>

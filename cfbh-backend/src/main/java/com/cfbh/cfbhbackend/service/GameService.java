@@ -1,6 +1,7 @@
 package com.cfbh.cfbhbackend.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,11 +28,32 @@ public class GameService {
 
     public List<Schedule> getAllTeamSchedules(int year) {
         List<Schedule> schedules = new ArrayList<Schedule>();
-        // Get all team ids for current year
-        for (Integer id : gameRepository.findAllTeamIdInYear(year)) {
-            // Then fetch every teams' schedule
-            List<Game> teamGames = gameRepository.findAllByTeamIdAndYear(id, year);
-            schedules.add(new Schedule(id,teamGames));
+        List<Game> yearGames = gameRepository.finalAllByYear(year);
+        for (Game g : yearGames) {
+            boolean homeFound = false;
+            boolean awayFound = false;
+            for (Schedule s : schedules) {
+                int teamId = s.getTeamId();
+                if (teamId == g.getHomeTeamId()) {
+                    s.getGames().add(g);
+                    homeFound = true;                
+                }
+                if (teamId == g.getAwayTeamId()) {
+                    s.getGames().add(g);
+                    awayFound = true;
+                }
+                // Stop iterating once both home and away teams are present
+                if (homeFound && awayFound)
+                    break;
+            }
+            if (!homeFound) {
+                List<Game> gameList = new ArrayList<Game>(Arrays.asList(g));
+                schedules.add(new Schedule(g.getHomeTeamId(), gameList));
+            }
+            if (!awayFound) {
+                List<Game> gameList = new ArrayList<Game>(Arrays.asList(g));
+                schedules.add(new Schedule(g.getAwayTeamId(), gameList));
+            }
         }
         return schedules;
     }

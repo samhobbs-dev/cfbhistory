@@ -54,7 +54,7 @@ const SchedulePage: React.FC = () => {
         isValidYear ?
             <Stack direction="column" alignItems="center" spacing={1} paddingTop={1}>
                 {(!isDesktopWidth || !isDesktopHeight) && 
-            <Typography>Tap a team to view its schedule.</Typography>
+                    <Typography>Tap a team to view its schedule.</Typography>
                 }
                 <ConfYear 
                     defaultYear={currentYear}
@@ -64,37 +64,37 @@ const SchedulePage: React.FC = () => {
                 />
                 <Stack direction="row" justifyContent="center" paddingLeft={5} paddingRight={5} spacing={2}>
                     {isDesktopWidth && isDesktopHeight &&
-            (isTeam ? 
-                <TeamSchedule 
-                    teamId={teamId}
-                    year={currentYear}
-                />
-                : 
-                
-                <Stack justifyContent="space-between">
-                    <Stack justifyContent="center" position="sticky" top="0">  
-                        <Box
-                            style={{ height: '55px', width: '200px', backgroundColor: 'white' }}
-                        >
-                            <Typography style={{ margin: 2, fontSize: 16 }}>
-                                Hover over or tap a team to see their schedule.
-                            </Typography>
-                        </Box>
-                    </Stack>
-                </Stack>
-            )
+                    (isTeam ? 
+                        <TeamSchedule 
+                            teamId={teamId}
+                            year={currentYear}
+                        />
+                        :                        
+                        <Stack justifyContent="space-between">
+                            <Stack justifyContent="center" position="sticky" top="0">  
+                                <Box
+                                    style={{ height: '55px', width: '200px', backgroundColor: 'white' }}
+                                >
+                                    <Typography style={{ margin: 2, fontSize: 16 }}>
+                                        Hover over or tap a team to see their schedule.
+                                    </Typography>
+                                </Box>
+                            </Stack>
+                        </Stack>
+                    )
                     }
                     <ConfGrid year={currentYear}/>
                     {isDesktopWidth && 
-                <Rankings
-                    year={currentYear}
-                    height={95}
-                    width={160}
-                    logoHeight={80}
-                />
+                        <Rankings
+                            year={currentYear}
+                            height={95}
+                            width={160}
+                            logoHeight={80}
+                        />
                     }
                 </Stack>
-            </Stack> :
+            </Stack>
+            :
             <>
                 <h1>Invalid Year</h1>
             </>            

@@ -35,6 +35,8 @@ const TeamLogo: React.FC<MyProps> = ({ teamId, maxHeight, maxWidth, xy, isSchedu
         const team = teams.find(t => t.id === teamId);
         let logo = '';
         if (team !== undefined) {
+            if (team.school === 'Oklahoma State')
+                console.log(team);
             if (useCurrentLogo) {
                 if (team.currentLogo !== null && team.currentLogo !== undefined)
                     logo = team.currentLogo as string;
