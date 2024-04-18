@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:mysql://cfbh-db.cdqqz91vmmlb.us-east-2.rds.amazonaws.com:3306/cfbdb
-    username: root
+    username: admin
     password: ${DB_PASSWORD}
   autoconfigure:
       exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
